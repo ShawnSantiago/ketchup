@@ -3,7 +3,7 @@
 var app = angular.module('ketchup.controllers', [])
 
 
-app.controller('MapCtrl', function($scope, $ionicLoading) {
+app.controller('mapCtrl', function($scope, $ionicLoading) {
  
   $scope.name = 'Home';
   $scope.mapCreated = function(map) {
@@ -32,11 +32,19 @@ app.controller('MapCtrl', function($scope, $ionicLoading) {
   };
 });
 
-app.controller('main', ['$scope', '$timeout', function($scope, $timeout) {
+app.controller('mainCtrl', ['$scope', '$timeout', function($scope, $timeout) {
     
     $scope.name = 'Home';
     
     
     
-}]);;
+}]);
+
+app.controller('homeCtrl', ['$scope', '$timeout', function($scope, $timeout) {
+    
+    $scope.name = '';
+    
+    
+    
+}]);
 

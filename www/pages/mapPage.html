@@ -1,0 +1,21 @@
+<ion-nav-bar></ion-nav-bar>
+<ion-nav-view>
+	<ion-header-bar class="bar-positive bar bar-header bar-light" >
+
+					<h1 class="title">{{name}}</h1>
+
+			</ion-header-bar>	
+	<ion-view>
+			
+			
+			<ion-content scroll="false">
+				
+				<map on-create="mapCreated(map)"></map>
+			</ion-content>
+
+			<ion-footer-bar class="bar-stable">
+				<a ng-click="centerOnMe()" class="button button-icon icon ion-navigate"></a>
+			</ion-footer-bar>
+
+	</ion-view>
+</ion-nav-view>

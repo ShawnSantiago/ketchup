@@ -10,32 +10,49 @@ app.run(function($ionicPlatform) {
   });
 })
 
-app.config(function ($stateProvider, $urlRouterProvider) {
+// app.config(function ($routeProvider) {
+    
+//     $routeProvider
+    
+//     .when('/', {
+//         templateUrl: 'pages/mainPage.html',
+//         controller: 'mainCtrl'
+//     })
+    
+//     .when('/second', {
+//         templateUrl: 'pages/second.html',
+//         controller: 'secondController'
+//     })
+    
+// });
+
+app.config(function ($stateProvider) {
 
 	$stateProvider
-		.state('main', {
+		.state('index', {
 			url: "/",
-			templateUrl: "pages/main.html",
-			controller: 'main'
+			templateUrl: "/pages/mainPage.html",
+			controller: 'mainCtrl'
 			
 		})
 		.state('map', {
-			url: "/pages/second.html",
-			templateUrl: "pages/second.html",
-			controller: 'MapCtrl'
+			url: "/pages/mapPage.html",
+			templateUrl: "pages/mapPage.html",
+			controller: 'mapCtrl'
 			
 		})
 		.state('loginPage', {
 			url: "/pages/loginPage.html",
 			templateUrl: "pages/loginPage.html",
-			controller: 'LoginCtrl'
+			controller: 'loginCtrl'
 			
 		})
 	;
 
-	$urlRouterProvider.otherwise('/');
+	// $urlRouterProvider.otherwise('/');
 
 });
+
 
 // app.run(['$rootScope', '$location', '$cookieStore', '$http',
 //     function ($rootScope, $location, $cookieStore, $http) {
