@@ -35,16 +35,44 @@ app.controller('mapCtrl', function($scope, $ionicLoading) {
 app.controller('mainCtrl', ['$scope', '$timeout', function($scope, $timeout) {
     
     $scope.title = 'Home';
-    
+    $scope.model = {
+
+    profiles: [
+      {
+        'name': 'Steve Smith',
+        'profilePicImage': 'img/profiles/ionic.png',
+        'desc': 'Anyone up for soccer',
+        'numberOfComments' : 5 , 
+        'location': {
+          'locationName': 'Trinity Bellwoods',
+          'distanceTo' : 3.2
+
+        }
+      },
+      {
+        'name': 'Steve Smith',
+        'profilePicImage': 'img/profiles/ionic.png',
+        'desc': 'Anyone up for soccer',
+        'numberOfComments' : 5 , 
+        'location': {
+          'locationName': 'Trinity Bellwoods',
+          'distanceTo' : 3.2
+        }
+      },
+      {
+        'name': 'Steve Smith',
+        'profilePicImage': 'img/profiles/ionic.png',
+        'desc': 'Anyone up for soccer',
+        'numberOfComments' : 5 ,
+        'location': {
+          'locationName': 'Trinity Bellwoods',
+          'distanceTo' : 3.2
+        }
+      }
+    ]
+  };
     
     
 }]);
 
-app.controller('homeCtrl', ['$scope', '$timeout', function($scope, $timeout) {
-    
-    $scope.title = 'Home';
-    
-    
-    
-}]);
 

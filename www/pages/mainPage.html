@@ -12,10 +12,33 @@
     <ion-content>
     	
       	<div class="row" >
-      		<a href="#/pages/listPage.html" class="col button button-small button-dark icon-right ion-ios-list">List</a>
-      		<a href="#/pages/mapPage.html" class="col  button button-small button-dark icon-right ion-ios-list">List</a>
-      		<button ng-click="sort()" class="col col-offset-10 button button-small button-assertive icon-right ion-ios-list">sort</button>
+      		<a href="#/pages/listPage.html" class="col button button-small button-dark icon-right ion-navicon-round">LIST</a>
+      		<a href="#/pages/mapPage.html" class="col  button button-small button-dark icon-right ion-map">MAP</a>
+      		<button ng-click="sort()" class="col col-offset-10 button button-small button-assertive icon-right ion-funnel">SORT</button>
 		</div>
+		<ion-list>
+			<ion-item ng-repeat="profiles in model.profiles">
+				<div class="row">
+					<div class="col">
+						<img src={{profiles.profilePicImage}} alt="">
+						<h3>{{ profiles.name}}</h3>
+						<p>posted 13 minutes ago</p>
+					</div>
+					<div class="col">
+						<div class="row">
+							<i class="ion-location col col-10"></i>
+							<h4 class="col">{{ profiles.location.locationName}}</h3>
+						</div>
+						
+						<p>{{profiles.desc}}</p>
+						<div class="row">
+							<a href="#/pages/mapPage.html" class="col button button-small button-positive icon-right ion-navicon-round">{{profiles.location.distanceTo}}</a>
+							<a href="#/pages/chat.html" class="col button button-small button-assertive icon-right ion-navicon-round">{{profiles.numberOfComments}}</a>
+						</div>
+					</div>
+				</div>
+			</ion-item>
+		</ion-list>
 		
 		
     </ion-content>
