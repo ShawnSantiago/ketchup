@@ -34,7 +34,7 @@ app.controller('mapCtrl', function($scope, $ionicLoading) {
 
 app.controller('mainCtrl', ['$scope', '$timeout', function($scope, $timeout) {
     
-    $scope.name = 'Home';
+    $scope.title = 'Home';
     
     
     
@@ -42,7 +42,7 @@ app.controller('mainCtrl', ['$scope', '$timeout', function($scope, $timeout) {
 
 app.controller('homeCtrl', ['$scope', '$timeout', function($scope, $timeout) {
     
-    $scope.name = '';
+    $scope.title = 'Home';
     
     
     

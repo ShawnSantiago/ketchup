@@ -26,7 +26,7 @@ app.run(function($ionicPlatform) {
     
 // });
 
-app.config(function ($stateProvider) {
+app.config(function ($stateProvider, $urlRouterProvider) {
 
 	$stateProvider
 		.state('index', {
@@ -49,7 +49,7 @@ app.config(function ($stateProvider) {
 		})
 	;
 
-	// $urlRouterProvider.otherwise('/');
+	$urlRouterProvider.otherwise('/');
 
 });
 
