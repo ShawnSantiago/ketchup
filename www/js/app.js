@@ -53,6 +53,18 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 			controller: 'mapCtrl'
 			
 		})
+		.state('chat', {
+			url: "/pages/chatPage.html",
+			templateUrl: "pages/chatPage.html",
+			controller: 'chatCtrl'
+			
+		})
+		.state('newPost', {
+			url: "/pages/newPostPage.html",
+			templateUrl: "pages/newPostPage.html",
+			controller: 'newPostCtrl'
+			
+		})
 		
 	;
 
