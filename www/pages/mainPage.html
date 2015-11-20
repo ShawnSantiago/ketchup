@@ -12,8 +12,14 @@
     <ion-content>
     	
       	<div class="row" >
-      		<a href="#/pages/mainPage.html" class="col button button-small button-dark icon-right ion-navicon-round">LIST</a>
-      		<a href="#/pages/mapPage.html" class="col  button button-small button-dark icon-right ion-map">MAP</a>
+      		<a href="#/pages/mainPage.html" ng-class="{
+	      			'button-dark':model.title == 'Main',
+        			'button-light':model.title == 'Map'
+        		}" class="col button button-small icon-right ion-navicon-round " ng-model="title">LIST</a>
+	      		<a href="#/pages/mapPage.html" ng-class="{
+	      			'button-dark':model.title == 'Map',
+        			'button-light':model.title == 'Main'
+        		}" class="col button button-small icon-right ion-navicon-round " ng-model="title">MAP</a>
       		<button ng-click="sort()" class="col col-offset-10 button button-small button-assertive icon-right ion-funnel">SORT</button>
 		</div>
 		<ion-list>

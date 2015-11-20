@@ -4,11 +4,13 @@ var app = angular.module('ketchup.controllers', [])
 
 
 app.controller('mapCtrl', function($scope, $ionicLoading) {
- 
+  $scope.model = {
+      'title':'Map'
+    }
   $scope.title = 'Map';
   $scope.mapCreated = function(map) {
     $scope.map = map;
-    $scope.name = 'Main';
+    $scope.name = 'Map';
   };
 
   $scope.centerOnMe = function () {
@@ -36,13 +38,10 @@ app.controller('mainCtrl', ['$scope', '$timeout', 'UserService' , function($scop
 
     $scope.user = UserService;
 
-    console.log(UserService)
     $scope.title = 'Home';
     $scope.model = {
-      
-      
-  };
-
+      'title':'Main'
+    }
   $scope.logout = function () {
     UserService.logoutUser();
     $state.go('intro');
