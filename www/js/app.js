@@ -1,36 +1,48 @@
 
 
-var app = angular.module('ketchup', ['ionic', 'ketchup.controllers', 'ketchup.directives'])
+var app = angular.module('ketchup', ['ionic', 'ngCordova',
+	'firebase','angularMoment','ketchup.controllers', 'ketchup.directives', 'ketchup.services'])
 
-app.run(function($ionicPlatform) {
-  $ionicPlatform.ready(function() {
-    if(window.StatusBar) {
-      StatusBar.styleDefault();
-    }
-  });
-})
 
-// app.config(function ($routeProvider) {
-    
-//     $routeProvider
-    
-//     .when('/', {
-//         templateUrl: 'pages/mainPage.html',
-//         controller: 'mainCtrl'
-//     })
-    
-//     .when('/second', {
-//         templateUrl: 'pages/second.html',
-//         controller: 'secondController'
-//     })
-    
-// });
+app.constant("FIREBASE_URL", 'http://ketchuptest.firebaseio.com');
+app.constant("FACEBOOK_APP_ID", '1489325994730790');
+
+
+app.run(function ($rootScope, $ionicPlatform, $cordovaStatusbar) {
+
+
+		$ionicPlatform.ready(function () {
+
+			// Hide the accessory bar by default
+			if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
+				cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+				cordova.plugins.Keyboard.disableScroll(true);
+			}
+			// Color the iOS status bar text to white
+			if (window.StatusBar) {
+				$cordovaStatusbar.overlaysWebView(true);
+				$cordovaStatusbar.style(0); //Light
+			}
+		});
+	});
+
+app.config(function ($stateProvider, $urlRouterProvider, FACEBOOK_APP_ID) {
+	openFB.init({appId: FACEBOOK_APP_ID});
+});
+
+
 
 app.config(function ($stateProvider, $urlRouterProvider) {
 
 	$stateProvider
-		.state('index', {
+		.state('loginPage', {
 			url: "/",
+			templateUrl: "pages/loginPage.html",
+			controller: 'loginCtrl'
+			
+		})
+		.state('home', {
+			url: "/pages/mainPage.html",
 			templateUrl: "/pages/mainPage.html",
 			controller: 'mainCtrl'
 			
@@ -41,12 +53,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 			controller: 'mapCtrl'
 			
 		})
-		.state('loginPage', {
-			url: "/pages/loginPage.html",
-			templateUrl: "pages/loginPage.html",
-			controller: 'loginCtrl'
-			
-		})
+		
 	;
 
 	$urlRouterProvider.otherwise('/');

@@ -1,16 +1,27 @@
-<ion-nav-bar></ion-nav-bar>
+<ion-nav-bar>
+	<ion-nav-back-button>
+  </ion-nav-back-button>
+</ion-nav-bar>
 <ion-nav-view>
-	<ion-header-bar class="bar-positive bar bar-header bar-light" >
+	<ion-header-bar class="bar-positive bar bar-header bar-assertive" >
 
-					<h1 class="title">{{name}}</h1>
-
+				<h1 class="title">{{title}}</h1>
+				<div class="buttons">
+        			<a href="#/pages/loginPage.html" class="button icon ion-gear-a"></a>
+       			</div>
 			</ion-header-bar>	
 	<ion-view>
 			
-			
 			<ion-content scroll="false">
-				
+			<div class="row" >
+	      		<a href="#/pages/mainPage.html" class="col button button-small button-dark icon-right ion-navicon-round">LIST</a>
+	      		<a href="#/pages/mapPage.html" class="col  button button-small button-dark icon-right ion-map">MAP</a>
+	      		<button ng-click="sort()" class="col col-offset-10 button button-small button-assertive icon-right ion-funnel">SORT</button>
+			</div>
+			
 				<map on-create="mapCreated(map)"></map>
+			
+				
 			</ion-content>
 
 			<ion-footer-bar class="bar-stable">

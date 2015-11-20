@@ -5,7 +5,7 @@ var app = angular.module('ketchup.controllers', [])
 
 app.controller('mapCtrl', function($scope, $ionicLoading) {
  
-  $scope.name = 'Home';
+  $scope.title = 'Map';
   $scope.mapCreated = function(map) {
     $scope.map = map;
     $scope.name = 'Main';
@@ -32,47 +32,39 @@ app.controller('mapCtrl', function($scope, $ionicLoading) {
   };
 });
 
-app.controller('mainCtrl', ['$scope', '$timeout', function($scope, $timeout) {
-    
+app.controller('mainCtrl', ['$scope', '$timeout', 'UserService' , function($scope, $timeout , UserService) {
+
+    $scope.user = UserService;
+
+    console.log(UserService)
     $scope.title = 'Home';
     $scope.model = {
-
-    profiles: [
-      {
-        'name': 'Steve Smith',
-        'profilePicImage': 'img/profiles/ionic.png',
-        'desc': 'Anyone up for soccer',
-        'numberOfComments' : 5 , 
-        'location': {
-          'locationName': 'Trinity Bellwoods',
-          'distanceTo' : 3.2
-
-        }
-      },
-      {
-        'name': 'Steve Smith',
-        'profilePicImage': 'img/profiles/ionic.png',
-        'desc': 'Anyone up for soccer',
-        'numberOfComments' : 5 , 
-        'location': {
-          'locationName': 'Trinity Bellwoods',
-          'distanceTo' : 3.2
-        }
-      },
-      {
-        'name': 'Steve Smith',
-        'profilePicImage': 'img/profiles/ionic.png',
-        'desc': 'Anyone up for soccer',
-        'numberOfComments' : 5 ,
-        'location': {
-          'locationName': 'Trinity Bellwoods',
-          'distanceTo' : 3.2
-        }
-      }
-    ]
+      
+      
   };
+
+  $scope.logout = function () {
+    UserService.logoutUser();
+    $state.go('intro');
+  };
+
     
     
 }]);
+
+app.controller('loginCtrl', function ($scope, $state, UserService) {
+  $scope.title = 'Login';
+  $scope.loggingIn = false;
+
+  $scope.login = function () {
+    if (!$scope.loggingIn) {
+      $scope.loggingIn = true;
+      UserService.loginUser().then(function () {
+          $scope.loggingIn = false;
+          $state.go('home');
+       });
+    }
+  }
+});
 
 

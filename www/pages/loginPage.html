@@ -1,7 +1,24 @@
 <ion-view >
-	 <ion-content scroll="false">
-     	
-		    
+		 <ion-view view-title="home">
+	  		<ion-header-bar align-title="center" class="bar-assertive">
+	        
+	        <h1 class="title">{{title}}</h1>
+	        <div class="buttons">
+	          <a href="#/pages/setting.html" class="button icon ion-gear-a"></a>
+	        </div>
+	      </ion-header-bar>
+		<ion-content scroll="false"
+		             padding="true"
+		             class="center-content padding" >
+			<img src="img/ionic.png"
+			     alt="" >
+
+		</ion-content >
+
+		<ion-footer-bar class="bar-assertive" >
+			<button class="button button-clear button-full"
+			        ng-click="login()" >Login with Facebook
+			</button >
+		</ion-footer-bar >
 	
-	</ion-content >
 </ion-view >

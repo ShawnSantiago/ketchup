@@ -6,13 +6,13 @@
         
         <h1 class="title">{{title}}</h1>
         <div class="buttons">
-          <a href="#/pages/setting.html" class="button icon ion-gear-a"></a>
+          <a href="#/pages/loginPage.html" class="button icon ion-gear-a"></a>
         </div>
       </ion-header-bar>
     <ion-content>
     	
       	<div class="row" >
-      		<a href="#/pages/listPage.html" class="col button button-small button-dark icon-right ion-navicon-round">LIST</a>
+      		<a href="#/pages/mainPage.html" class="col button button-small button-dark icon-right ion-navicon-round">LIST</a>
       		<a href="#/pages/mapPage.html" class="col  button button-small button-dark icon-right ion-map">MAP</a>
       		<button ng-click="sort()" class="col col-offset-10 button button-small button-assertive icon-right ion-funnel">SORT</button>
 		</div>
@@ -20,8 +20,8 @@
 			<ion-item ng-repeat="profiles in model.profiles">
 				<div class="row">
 					<div class="col">
-						<img src={{profiles.profilePicImage}} alt="">
-						<h3>{{ profiles.name}}</h3>
+						<img ng-src="{{user.current.profilePic}}" alt="">
+						<h3>{{ user.current.name}}</h3>
 						<p>posted 13 minutes ago</p>
 					</div>
 					<div class="col">
@@ -31,7 +31,7 @@
 						</div>
 						
 						<p>{{profiles.desc}}</p>
-						<div class="row">
+						<div class="row row-bottom">
 							<a href="#/pages/mapPage.html" class="col button button-small button-positive icon-right ion-navicon-round">{{profiles.location.distanceTo}}</a>
 							<a href="#/pages/chat.html" class="col button button-small button-assertive icon-right ion-navicon-round">{{profiles.numberOfComments}}</a>
 						</div>
