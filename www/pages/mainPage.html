@@ -23,11 +23,11 @@
       		<button ng-click="sort()" class="col col-offset-10 button button-small button-assertive icon-right ion-funnel">SORT</button>
 		</div>
 		<ion-list>
-			<ion-item ng-repeat="profiles in model.profiles">
+			<ion-item ng-repeat="profiles in profiles">
 				<div class="row">
 					<div class="col">
-						<img ng-src="{{user.current.profilePic}}" alt="">
-						<h3>{{ profiles.current.name}}</h3>
+						<img ng-src="{{profiles.profilePicImage}}" alt="">
+						<h3>{{ profiles.name}}</h3>
 						<p>posted 13 minutes ago</p>
 					</div>
 					<div class="col">
@@ -46,17 +46,7 @@
 			</ion-item>
 		</ion-list>
 		
-		<div class="tabs tabs-dark tabs-icon-only">
-			  <a class="tab-item">
-			    <i class="icon ion-person-stalker"></i>
-			  </a>
-			  <a class="tab-item">
-			    <i class="icon ion-compose"></i>
-			  </a>
-			  <a class="tab-item">
-			    <i class="icon ion-chatboxes"></i>
-			  </a>
-			</div>
+		
     </ion-content>
   </ion-view>
 </ion-nav-view>

@@ -40,8 +40,42 @@ app.controller('mainCtrl', ['$scope', '$timeout', 'UserService' , function($scop
 
     $scope.title = 'Home';
     $scope.model = {
-      'title':'Main'
+      'title':'Main',
     }
+
+    $scope.profiles = [
+      {
+        'name': 'Steve Smith',
+        'profilePicImage': 'img/profiles/ionic.png',
+        'desc': 'Anyone up for soccer',
+        'numberOfComments' : 5 , 
+        'location': {
+          'locationName': 'Trinity Bellwoods',
+          'distanceTo' : 3.2
+
+        }
+      },
+      {
+        'name': 'Steve Smith',
+        'profilePicImage': 'img/profiles/ionic.png',
+        'desc': 'Anyone up for soccer',
+        'numberOfComments' : 5 , 
+        'location': {
+          'locationName': 'Trinity Bellwoods',
+          'distanceTo' : 3.2
+        }
+      },
+      {
+        'name': 'Steve Smith',
+        'profilePicImage': 'img/profiles/ionic.png',
+        'desc': 'Anyone up for soccer',
+        'numberOfComments' : 5 ,
+        'location': {
+          'locationName': 'Trinity Bellwoods',
+          'distanceTo' : 3.2
+        }
+      }
+    ]
   $scope.logout = function () {
     UserService.logoutUser();
     $state.go('intro');
