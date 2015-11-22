@@ -148,7 +148,7 @@ app.controller('MenuCtrl', function($scope, $state, UserService, $ionicSideMenuD
   };
   $scope.logout = function () {
     UserService.logoutUser();
-    $state.go('app.home');
+    $state.go('loginPage');
   };
 
 });

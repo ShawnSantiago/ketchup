@@ -3,12 +3,13 @@
 	<ion-content delegate-handle="show-page" >
 
 		<!-- Loading Indicator -->
-		<div class="loading"
-		     ng-if="data.loading" >
-			<ion-spinner icon="ripple" ></ion-spinner >
-			<p >Loading messages...</p >
-		</div >
-
+		<div class="row">
+			<div class="col col-33 col-offset-33 loading"
+			     ng-if="data.loading" >
+				<ion-spinner icon="ripple" class="col col-33" align="center" ></ion-spinner >
+				<p >Loading messages...</p >
+			</div >
+		</div>
 		<!-- Empty room message -->
 		<div class="loading"
 		     ng-show="!data.loading && data.messages.length == 0" >
