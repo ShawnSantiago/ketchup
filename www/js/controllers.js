@@ -40,7 +40,19 @@ app.controller('mainCtrl', ['$scope', '$timeout', 'UserService' , function($scop
 
     $scope.title = 'Home';
     $scope.model = {
-      'title':'Main'
+      'title':'Main',
+
+      'profiles': {
+
+          'userName' : 'steven',
+          'profilePic' : '',
+          'desc' : 'Anyone wanna play B-ball',
+          'location' : {
+              'distanceTo' : '5'
+          },
+          'numberOfComments' : '10'
+
+       }
     }
   $scope.logout = function () {
     UserService.logoutUser();
