@@ -41,30 +41,52 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 			controller: 'loginCtrl'
 			
 		})
-		.state('home', {
-			url: "/pages/mainPage.html",
-			templateUrl: "/pages/mainPage.html",
-			controller: 'mainCtrl'
+		.state('app', {
+				url: "/app",
+				abstract: true,
+				templateUrl: "pages/menu.html",
+				controller: 'MenuCtrl'
+			})
+		.state('app.home', {
+			url: "/mainPage",
+			views: {
+				'menuContent': {
+					templateUrl: "pages/mainPage.html",
+					controller: 'mainCtrl'
+				}
+			}
 			
 		})
-		.state('map', {
-			url: "/pages/mapPage.html",
-			templateUrl: "pages/mapPage.html",
-			controller: 'mapCtrl'
+		.state('app.map', {
+			url: "/mapPage",
+			views: {
+				'menuContent': {
+					templateUrl: "pages/mapPage.html",
+					controller: 'mapCtrl'
+				}
+			}		
 			
 		})
-		.state('chat', {
-			url: "/pages/chatPage.html",
-			templateUrl: "pages/chatPage.html",
-			controller: 'chatCtrl'
+		.state('app.chat', {
+			url: "/chatPage",
+			views: {
+				'menuContent': {
+					templateUrl: "pages/chatPage.html",
+					controller: 'chatCtrl'
+				}
+			}		
 			
 		})
-		.state('newPost', {
-			url: "/pages/newPostPage.html",
-			templateUrl: "pages/newPostPage.html",
-			controller: 'newPostCtrl'
-			
+		.state('app.newPost', {
+			url: "/newPostPage",
+			views: {
+				'menuContent': {
+					templateUrl: "pages/newPostPage.html",
+					controller: 'newPostCtrl'
+				}
+			}	
 		})
+		
 		
 	;
 

@@ -1,51 +1,42 @@
-<ion-nav-bar>
-	<ion-nav-back-button>
-  </ion-nav-back-button>
-</ion-nav-bar>
-<ion-nav-view>
-	<ion-header-bar class="bar-positive bar bar-header bar-assertive" >
 
-				<h1 class="title">{{title}}</h1>
-				<div class="buttons">
-        			<a href="#/pages/loginPage.html" class="button icon ion-gear-a"></a>
-       			</div>
-			</ion-header-bar>	
-	<ion-view>
+<ion-view title="{{title}}"> 		
+		<ion-content scroll="false">
+		<ion-nav-buttons class="button-clear" side="right">
+				<!-- Toggle right side menu -->
+				<button menu-toggle="right" class="button button icon ion-gear-a"></button>
+			</ion-nav-buttons>
+		<div class="row" >
+      		<a href="#/app/mainPage" ng-class="{
+      			'button-dark':model.title == 'Main',
+    			'button-light':model.title == 'Map'
+    		}" class="col button button-small icon-right ion-navicon-round " ng-model="title">LIST</a>
+      		<a href="#/app/mapPage" ng-class="{
+      			'button-dark':model.title == 'Map',
+    			'button-light':model.title == 'Main'
+    		}" class="col button button-small icon-right ion-navicon-round " ng-model="title">MAP</a>
+      		<button ng-click="sort()" class="col col-offset-10 button button-small button-assertive icon-right ion-funnel">SORT</button>
+		</div>
+		
+			<map on-create="mapCreated(map)"></map>
+		
 			
-			<ion-content scroll="false">
-			<div class="row" >
-	      		<a href="#/pages/mainPage.html" ng-class="{
-	      			'button-dark':model.title == 'Main',
-        			'button-light':model.title == 'Map'
-        		}" class="col button button-small icon-right ion-navicon-round " ng-model="title">LIST</a>
-	      		<a href="#/pages/mapPage.html" ng-class="{
-	      			'button-dark':model.title == 'Map',
-        			'button-light':model.title == 'Main'
-        		}" class="col button button-small icon-right ion-navicon-round " ng-model="title">MAP</a>
-	      		<button ng-click="sort()" class="col col-offset-10 button button-small button-assertive icon-right ion-funnel">SORT</button>
+		</ion-content>
+
+		<!-- <ion-footer-bar class="bar-stable">
+			<a ng-click="centerOnMe()" class="button button-icon icon ion-navigate"></a>
+		</ion-footer-bar> -->
+		<ion-footer>
+		<div class="tabs tabs-dark tabs-icon-only">
+			  <a class="tab-item">
+			    <i class="icon ion-person-stalker"></i>
+			  </a>
+			  <a class="tab-item" href="#/app/newPostPage">
+			    <i class="icon ion-compose"></i>
+			  </a>
+			  <a class="tab-item" href="#/app/chatPage">
+			    <i class="icon ion-chatboxes"></i>
+			  </a>
 			</div>
-			
-				<map on-create="mapCreated(map)"></map>
-			
-				
-			</ion-content>
+	</ion-footer>
 
-			<!-- <ion-footer-bar class="bar-stable">
-				<a ng-click="centerOnMe()" class="button button-icon icon ion-navigate"></a>
-			</ion-footer-bar> -->
-			<ion-footer>
-				<div class="tabs tabs-dark tabs-icon-only">
-				  <a class="tab-item">
-				    <i class="icon ion-person-stalker"></i>
-				  </a>
-				  <a class="tab-item">
-				    <i class="icon ion-compose"></i>
-				  </a>
-				  <a class="tab-item">
-				    <i class="icon ion-chatboxes"></i>
-				  </a>
-				</div>
-			</ion-footer>
-
-	</ion-view>
-</ion-nav-view>
+</ion-view>

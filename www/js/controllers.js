@@ -34,7 +34,7 @@ app.controller('mapCtrl', function($scope, $ionicLoading) {
   };
 });
 
-app.controller('mainCtrl', ['$scope', '$timeout', 'UserService' , function($scope, $timeout , UserService) {
+app.controller('mainCtrl', function($scope, $timeout , UserService, $ionicSideMenuDelegate) {
 
     $scope.user = UserService;
 
@@ -42,6 +42,40 @@ app.controller('mainCtrl', ['$scope', '$timeout', 'UserService' , function($scop
     $scope.model = {
       'title':'Main'
     }
+
+    $scope.profiles = [
+      {
+        'name': 'Steve Smith',
+        'profilePicImage': 'img/profiles/ionic.png',
+        'desc': 'Anyone up for soccer',
+        'numberOfComments' : 5 , 
+        'location': {
+          'locationName': 'Trinity Bellwoods',
+          'distanceTo' : 3.2
+
+        }
+      },
+      {
+        'name': 'Steve Smith',
+        'profilePicImage': 'img/profiles/ionic.png',
+        'desc': 'Anyone up for soccer',
+        'numberOfComments' : 5 , 
+        'location': {
+          'locationName': 'Trinity Bellwoods',
+          'distanceTo' : 3.2
+        }
+      },
+      {
+        'name': 'Steve Smith',
+        'profilePicImage': 'img/profiles/ionic.png',
+        'desc': 'Anyone up for soccer',
+        'numberOfComments' : 5 ,
+        'location': {
+          'locationName': 'Trinity Bellwoods',
+          'distanceTo' : 3.2
+        }
+      }
+    ]
   $scope.logout = function () {
     UserService.logoutUser();
     $state.go('intro');
@@ -49,7 +83,7 @@ app.controller('mainCtrl', ['$scope', '$timeout', 'UserService' , function($scop
 
     
     
-}]);
+});
 
 app.controller('loginCtrl', function ($scope, $state, UserService) {
   $scope.title = 'Login';
@@ -60,7 +94,7 @@ app.controller('loginCtrl', function ($scope, $state, UserService) {
       $scope.loggingIn = true;
       UserService.loginUser().then(function () {
           $scope.loggingIn = false;
-          $state.go('home');
+          $state.go('app.home');
        });
     }
   }
@@ -104,7 +138,24 @@ app.controller('chatCtrl', function ($scope,
 app.controller('newPostCtrl', function ($scope, $state, UserService) {
   $scope.title = 'New Post';
  
-
-  
 });
+
+app.controller('MenuCtrl', function($scope, $state, UserService, $ionicSideMenuDelegate) {
+
+  $scope.user = UserService;
+  $scope.toggleLeft = function() {
+    $ionicSideMenuDelegate.toggleLeft();
+  };
+  $scope.logout = function () {
+    UserService.logoutUser();
+    $state.go('loginPage');
+  };
+
+});
+
+// .controller('AppController', function($scope, $ionicSideMenuDelegate) {
+//   $scope.toggleLeft = function() {
+//     $ionicSideMenuDelegate.toggleLeft();
+//   };
+// })
 
