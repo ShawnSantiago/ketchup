@@ -74,7 +74,7 @@ app.service('UserService', function (FIREBASE_URL,
 				user.$loaded(function () {
 					// When we are sure the object has been completely
 					// loaded from firebase then resolve the promise.
-					//self.current = user;
+					self.current = user;
 					//self.identifyUser();
 					d.resolve(self.current);
 				});
@@ -137,7 +137,7 @@ app.service('UserService', function (FIREBASE_URL,
 											.then(function (authData) {
 												console.log("Authentication success, logged in as:", authData.uid);
 												console.log(authData);
-												//
+												
 												// We've authenticated, now it's time to either get an existing user
 												// object or create a new one.
 												//
@@ -168,6 +168,7 @@ app.service('UserService', function (FIREBASE_URL,
 														// and store it in the self.current property.
 														//
 														$localstorage.set('ketchup-user', authData.uid);
+														$localstorage.setObject('ketchup-data', authData);
 														self.current = $firebaseObject(usersRef.child(authData.uid));
 														self.current.$loaded(function () {
 															// When we are sure the object has been completely

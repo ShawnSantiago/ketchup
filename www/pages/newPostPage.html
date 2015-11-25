@@ -1,36 +1,48 @@
 
 <ion-view title="{{title}}">
-  <ion-content>   	
-      <div class="list card">
-
-        <div class="item">
-          <h2 class="title">Where?</h2>
-          <p><i class="icon ion-navigate"></i> Near me <a class="link" href="#">change?</a></p>
-        </div>
-
-        <div class="item">
-          <h2 class="title">How long are you free?</h2>
-          <div class="button-bar bar-assertive button-bar-hours">
-            <a class="button button-small">1 Hour</a>
-            <a class="button button-small">2 Hours</a>
-            <a class="button button-small">3 Hours</a>
-            <a class="button button-small">More</a>
-          </div>
-        </div>
-
-        <div class="item">
-          <h2 class="title">What do you want to do? <span class="span-optional">(optional)</span></h2>
-          <div class="row">
-            <textarea class="newPost-textarea"></textarea>
+  <ion-content>   
+    <form ng-submit="newPostdata()">
+  
+        <div class="list">
+    
+          <div class="item">
+            <h2 class="title">Where?</h2>
+            <p><i class="icon ion-navigate"></i> Near me <a class="link" ng-click="centerOnMe()">change?</a></p>
+           
+            <label class="item item-input">
+              <input type="text" id="Autocomplete" ng-autocomplete ng-model="autocomplete" />
+            </label>
+            
           </div>
         
+          <div class="item ">
+            <h2 class="title">How long are you free?</h2>
+            <div class="button-bar bar-assertive button-bar-hours">
+
+              <a class="button button-small"
+              ng-click="data.lenghtOfTime = 1" value="1">1 Hour</a>
+              <a class="button button-small"
+              ng-click="data.lenghtOfTime = 2" value="2">2 Hours</a>
+              <a class="button button-small"
+              ng-click="data.lenghtOfTime = 3" value="3">3 Hours</a>
+              <!-- <a class="button button-small">More</a> -->
+            </div>
+          </div>
+
+          <div class="item">
+            <h2 class="title">What do you want to do? <span class="span-optional">(optional)</span></h2>
+            <div class="row">
+              <textarea class="newPost-textarea" ng-model="data.eventDesc"></textarea>
+            </div>
+          
+          </div>
+      
+          <button class="item button button-block button-assertive" type="submit" ngClick="Submit">
+            Go!
+          </button>
+
         </div>
-
-        <button class="item button button-block button-assertive" href="#">
-          Go!
-        </button>
-
-      </div>
+    </form> 
   </ion-content>
   <ion-footer>
     <div class="tabs tabs-dark tabs-icon-only">

@@ -3,14 +3,14 @@
 var app = angular.module('ketchup.controllers', [])
 
 
-app.controller('mapCtrl', function($scope, $ionicLoading) {
+app.controller('mapCtrl', function($scope, $ionicLoading, $localstorage) {
   $scope.model = {
       'title':'Map'
     }
   $scope.title = 'Map';
   $scope.mapCreated = function(map) {
     $scope.map = map;
-    $scope.name = 'Map';
+    
   };
 
   $scope.centerOnMe = function () {
@@ -26,6 +26,7 @@ app.controller('mapCtrl', function($scope, $ionicLoading) {
 
     navigator.geolocation.getCurrentPosition(function (pos) {
       console.log('Got pos', pos);
+      $localstorage.set('ketchup-user', authData.uid);
       $scope.map.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
       $scope.loading.hide();
     }, function (error) {
@@ -34,9 +35,10 @@ app.controller('mapCtrl', function($scope, $ionicLoading) {
   };
 });
 
-app.controller('mainCtrl', function($scope, $timeout , UserService, $ionicSideMenuDelegate) {
+app.controller('mainCtrl', function( $scope, $timeout, UserService, $localstorage, $ionicSideMenuDelegate) {
 
-    $scope.user = UserService;
+    $scope.user = $localstorage.getObject('ketchup-data').facebook;
+    console.log($localstorage.getObject('ketchup-data').facebook)
 
     $scope.title = 'Home';
     $scope.model = {
@@ -116,7 +118,7 @@ app.controller('chatCtrl', function ($scope,
                                      FIREBASE_URL,
                                      UserService) {
   $scope.title = 'Chat';
-  $scope.user = UserService;
+  $scope.user = UserService.current;
 
   $scope.show = {};
 
@@ -147,17 +149,44 @@ app.controller('chatCtrl', function ($scope,
 
 });
 
-app.controller('newPostCtrl', function ($scope, $state, UserService) {
+app.controller('newPostCtrl', function ($scope, $state, $ionicLoading, $localstorage, UserService) {
   $scope.title = 'New Post';
+  $scope.data = {
+        postLocation: "",
+        lenghtOfTime: "1",
+        eventDesc: ""
+    };
+  
+
+  $scope.centerOnMe = function () {
+    console.log("Centering");
+
+    $scope.loading = $ionicLoading.show({
+      content: 'Getting current location...',
+      showBackdrop: false
+    });
+
+    navigator.geolocation.getCurrentPosition(function (pos) {
+      console.log('Got pos', pos);
+      $scope.data.postLocation = pos;
+      $localstorage.set('ketchup-user-location', pos);
+      $ionicLoading.hide();
+    }, function (error) {
+      alert('Unable to get location: ' + error.message);
+    });
+  };
+  $scope.newPostdata = function() {
  
+    console.log($scope.data);
+
+  }
+   
 });
+
 
 app.controller('MenuCtrl', function($scope, $state, UserService, $ionicSideMenuDelegate) {
 
-  $scope.user = UserService;
-  $scope.toggleLeft = function() {
-    $ionicSideMenuDelegate.toggleLeft();
-  };
+ 
   $scope.logout = function () {
     UserService.logoutUser();
     $state.go('loginPage');
