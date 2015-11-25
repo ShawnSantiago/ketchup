@@ -82,7 +82,7 @@ angular.module( "ngAutocomplete", [])
 
         if (scope.gPlace == undefined) {
           
-          console.log(element[0], {});
+    
           scope.gPlace = new google.maps.places.Autocomplete(element[0], {});
 
         }

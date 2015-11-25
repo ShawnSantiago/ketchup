@@ -1,7 +1,7 @@
 
 <ion-view title="{{title}}">
   <ion-content>   
-    <form ng-submit="newPostdata()">
+    <form>
   
         <div class="list">
     
@@ -9,9 +9,10 @@
             <h2 class="title">Where?</h2>
             <p><i class="icon ion-navigate"></i> Near me <a class="link" ng-click="centerOnMe()">change?</a></p>
            
-            <label class="item item-input">
-              <input type="text" id="Autocomplete" ng-autocomplete ng-model="autocomplete" />
-            </label>
+            <div class="row"> 
+              <input type="text" class="col col-75"id="Autocomplete" ng-autocomplete ng-model="data.location" placeholder="{{data.postLocation}}" />
+              <button  class="col col-25" ng-click="textLocation()">set</button>
+            </div>
             
           </div>
         
@@ -37,7 +38,7 @@
           
           </div>
       
-          <button class="item button button-block button-assertive" type="submit" ngClick="Submit">
+          <button class="item button button-block button-assertive" type="submit" ng-click="submit()" >
             Go!
           </button>
 

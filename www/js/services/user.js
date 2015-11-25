@@ -1,11 +1,12 @@
 var app = angular.module('ketchup.services.userService', []);
 
 
-app.service('UserService', function (FIREBASE_URL,
+app.service('UserService', function (
                                      $q,
                                      $rootScope,
                                      $localstorage,
                                      $ionicPopup,
+                                     FIREBASE_URL,
                                      $firebaseAuth,
                                      $firebase,
                                      $firebaseObject) {
