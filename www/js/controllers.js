@@ -35,14 +35,38 @@ app.controller('mapCtrl', function($scope, $ionicLoading, $localstorage) {
   };
 });
 
-app.controller('mainCtrl', function( $scope, $timeout, UserService, $localstorage, $ionicSideMenuDelegate, FIREBASE_URL, $firebaseAuth, $firebase, $firebaseObject) {
+app.controller('mainCtrl', function( $scope, $timeout, UserService, $localstorage, $ionicSideMenuDelegate, FIREBASE_URL, $firebaseAuth, $firebase, $firebaseArray, $parse) {
     var ref = new Firebase(FIREBASE_URL);
     var postsRef = new Firebase(FIREBASE_URL + "/posts");
-    
+    postsRef.on("value", function(snapshot) {
+        $scope.postInfo = snapshot.val();
+        $scope.$broadcast('scroll.refreshComplete');
+        console.log("done 1")
+      }, function (errorObject) {
+        console.log("The read failed: " + errorObject.code);
+      });
+    $scope.doRefresh = function() {
+      console.log("start")
+      postsRef.on("value", function(snapshot) {
+        $scope.postInfo = snapshot.val();
+        $scope.$broadcast('scroll.refreshComplete');
+        console.log("done 1")
+      }, function (errorObject) {
+        console.log("The read failed: " + errorObject.code);
+      });
+   
+    $timeout(function() {
+          $scope.$broadcast('scroll.refreshComplete');
+          $scope.$broadcast('scroll.refreshComplete');
+          console.log("done 2")
+        }, 250);
+     
+    console.log("done 3")
+    }
+
     $scope.title = 'Home';
-    var postInfo = $firebaseObject(postsRef);
-    console.log(postInfo)
-    postInfo.$bindTo($scope, "post");
+   
+    
     
   $scope.logout = function () {
     UserService.logoutUser();
@@ -63,7 +87,11 @@ app.controller('loginCtrl', function ($scope, $state, UserService) {
       UserService.loginUser().then(function () {
           $scope.loggingIn = false;
           $state.go('app.home');
+          
+          
        });
+    } else {
+      $state.go('app.home');
     }
   }
 });
@@ -107,9 +135,11 @@ app.controller('newPostCtrl', function ($scope, $state, $ionicLoading, $localsto
   $scope.title = 'New Post';
   $scope.data = {
         postLocation: "",
+        autoLocation: "",
         lenghtOfTime: "1",
         eventDesc: ""
     };
+
   var ref = new Firebase(FIREBASE_URL);
   var postsRef = new Firebase(FIREBASE_URL + "/posts");
  
@@ -117,7 +147,8 @@ app.controller('newPostCtrl', function ($scope, $state, $ionicLoading, $localsto
   $scope.textLocation = function () {
     
   
-    $localstorage.set('ketchup-user-location', $scope.data.postLocation);
+    $localstorage.set('ketchup-user-location', $scope.data.autoLocation);
+    console.log($scope.data.autoLocation)
     $ionicPopup.alert({
      template: 'Location Set'
    });
@@ -143,6 +174,8 @@ app.controller('newPostCtrl', function ($scope, $state, $ionicLoading, $localsto
                 if (results[1]) {
                     $scope.data.postLocation = results[1].formatted_address;
                     console.log(results[1].formatted_address)
+                    $localstorage.set('ketchup-user-location',results[1].formatted_address)
+                    
                 } else {
                     alert('Location not found');
                 }
@@ -164,27 +197,26 @@ app.controller('newPostCtrl', function ($scope, $state, $ionicLoading, $localsto
 
   $scope.submit = function() {
     
-    var data = $scope.data;
-    
+
+    var userLocal= $localstorage.get('ketchup-user-location');
+    console.log(userLocal)
     var userData = $localstorage.getObject('ketchup-data');
-    var userUID = userData.uid;
-    var sendData = [userData.facebook ,data ,userUID]
-    
-    console.log(sendData)
-    postsRef.child("postMessage")
-     .transaction(function(data) {
-        if( data != null && userData !=null ) {
-           $ionicPopup.alert({
-              template: 'Please Enter Data'
-            }); 
-        } else {
-          return sendData;
-        }
-        
-        
-    });
-   }
-   
+    console.log(userData)    
+    if( $scope.data.postLocation == null && userData == null ) {
+       $ionicPopup.alert({
+          template: 'Please Enter Data'
+        }); 
+    } else {
+      $state.go('app.home');
+      postsRef.push({
+        name : userData.facebook.cachedUserProfile.name ,
+        profileImage : userData.facebook.cachedUserProfile.picture.data.url ,
+        location :  userLocal , 
+        message : $scope.data.eventDesc
+
+      });
+    }
+  } 
 });
 
 

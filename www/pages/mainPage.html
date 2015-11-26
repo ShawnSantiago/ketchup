@@ -5,7 +5,9 @@
 				<button menu-toggle="right" class="button button icon ion-gear-a"></button>
 			</ion-nav-buttons>
 	<ion-content>
-
+		<ion-refresher pulling-text="Pull To Refresh" on-refresh="doRefresh()"
+            refreshing-text="Fetching ..." refreshing-icon="ion-loading-b"
+          ></ion-refresher>
 
 	  	<div class="row" >
 	  		<a href="#/app/mainPage" ng-class="{
@@ -18,28 +20,30 @@
 	    		}" class="col button button-small icon-right ion-navicon-round " ng-model="title">MAP</a>
 	  		<button ng-click="sort()" class="col col-offset-10 button button-small button-assertive icon-right ion-funnel">SORT</button>
 		</div>
+
 		<ion-list>
-			<ion-item ng-repeat="profiles in post">
+		
+			<ion-item ng-repeat="profiles in postInfo">
 				<div class="row">
 					<div class="col">
+						
 
+						<img ng-src="{{profiles.profileImage}}" alt="">
 
-						<img ng-src="{{post.postMessage[0].profileImageURL}}" alt="">
-
-						<h3>{{ post.postMessage[0].displayName}}</h3>
+						<h3>{{profiles.name}}</h3>
 						<p>posted 13 minutes ago</p>
 					</div>
 					<div class="col">
 						<div class="row">
 							<i class="ion-location col col-10"></i>
-							<h4 class="col">{{ post.postMessage[1].postLocation}}</h3>
+							<h4 class="col">{{profiles.location}}</h4>
 						</div>
 						
-						<p>{{post.postMessage[1].eventDesc}}</p>
-						<div class="row row-bottom">
+						<p>{{profiles.message}}</p>
+						<!-- <div class="row row-bottom">
 							<a href="#/pages/mapPage.html" class="col button button-small button-positive icon-right ion-navicon-round">{{profiles.location.distanceTo}}</a>
 							<a href="#/pages/chat.html" class="col button button-small button-assertive icon-right ion-navicon-round">{{profiles.numberOfComments}}</a>
-						</div>
+						</div> -->
 					</div>
 				</div>
 			</ion-item>
