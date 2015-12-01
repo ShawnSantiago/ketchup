@@ -77,6 +77,16 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 			}		
 			
 		})
+		.state('app.chatList', {
+			url: "/chatList",
+			views: {
+				'menuContent': {
+					templateUrl: "pages/chatList.html",
+					controller: 'chatListCtrl'
+				}
+			}		
+			
+		})
 		.state('app.newPost', {
 			url: "/newPostPage",
 			views: {

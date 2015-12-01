@@ -9,7 +9,7 @@
             refreshing-text="Fetching ..." refreshing-icon="ion-loading-b"
           ></ion-refresher>
 
-	  	<div class="row" >
+	  	<!-- <div class="row" >
 	  		<a href="#/app/mainPage" ng-class="{
 	      			'button-dark':model.title == 'Main',
 	    			'button-light':model.title == 'Map'
@@ -19,32 +19,21 @@
 	    			'button-light':model.title == 'Main'
 	    		}" class="col button button-small icon-right ion-navicon-round " ng-model="title">MAP</a>
 	  		<button ng-click="sort()" class="col col-offset-10 button button-small button-assertive icon-right ion-funnel">SORT</button>
-		</div>
+		</div> -->
 
 		<ion-list>
 		
-			<ion-item ng-repeat="profiles in postInfo">
+			<ion-item ng-repeat="messages in postInfo">
 				<div class="row">
 					<div class="col">
 						
 
-						<img ng-src="{{profiles.profileImage}}" alt="">
+						<img ng-repeat="chatPartners in messages"
+						ng-src="{{chatPartner}}" alt="">
 
-						<h3>{{profiles.name}}</h3>
-						<p>posted 13 minutes ago</p>
+						<p>{{messages.timePosted}}</p>
 					</div>
-					<div class="col">
-						<div class="row">
-							<i class="ion-location col col-10"></i>
-							<h4 class="col">{{profiles.location}}</h4>
-						</div>
-						
-						<p>{{profiles.message}}</p>
-						<!-- <div class="row row-bottom">
-							<a href="#/pages/mapPage.html" class="col button button-small button-positive icon-right ion-navicon-round">{{profiles.location.distanceTo}}</a>
-							<a href="#/pages/chat.html" class="col button button-small button-assertive icon-right ion-navicon-round">{{profiles.numberOfComments}}</a>
-						</div> -->
-					</div>
+					
 				</div>
 			</ion-item>
 		</ion-list>
@@ -57,7 +46,7 @@
 			  <a class="tab-item" href="#/app/newPostPage">
 			    <i class="icon ion-compose"></i>
 			  </a>
-			  <a class="tab-item" href="#/app/chatList">
+			  <a class="tab-item" href="#/app/chatPage">
 			    <i class="icon ion-chatboxes"></i>
 			  </a>
 			</div>
