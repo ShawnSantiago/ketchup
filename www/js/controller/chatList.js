@@ -18,48 +18,31 @@ app.controller('chatListCtrl', function ($scope,
   console.log(user)
   var ref = new Firebase(FIREBASE_URL);
   var postsRef = new Firebase(FIREBASE_URL + "/users/" + user + "/messages");
-  postsRef.push({
-        'chatID': makeid() ,
-        'timePosted' : "13/03/2015",
-        'chatPartners' : [
-          "facebook:10154494517268975", 
-          "facebook:10207042891024578"
-        ]
-        });
+  
 
 
-  postsRef.on("value", function(snapshot) {
-      $scope.postInfo = snapshot.val();
-      $scope.$broadcast('scroll.refreshComplete');
-      console.log($scope.postInfo)
-    }, function (errorObject) {
-      console.log("The read failed: " + errorObject.code);
+postsRef.on("value", function(snapshot) {
+    $scope.postInfo = snapshot.val();
+    $scope.$broadcast('scroll.refreshComplete');
+    console.log($scope.postInfo)
+  }, function (errorObject) {
+    console.log("The read failed: " + errorObject.code);
+});
+
+$scope.buildData = function() {
+
+  var returnArr = [];
+
+  angular.forEach($scope.postInfo, function(data, messages) {
+      angular.forEach(data, function( chatPartners, fbID, time) {
+        returnArr.push( {messageName: messages, chatPartners:chatPartners, fbID:fbID, time:time});            
+      });
   });
-  
-  // for (var i = 0; i < $scope.postInfo.length; i++) {
-  //   var chatList = $scope.postInfo[i];
-  //   console.log(chatList)
-  //     // for (var i = 0; i < chatList.length; i++) {
-  //     //   var partnerIds =chatList.chatpartners[i]
-
-  //     // };
-      
-   
-  // };
-  // function getUserPictures(userIds) {
-  //   for (var i = 0; i < userIds.length; i++) {
-  //     var postsRef2 = new Firebase(FIREBASE_URL + "/users" + userIds[i] );
-  //     postsRef2.on("value", function(snapshot) {
-  //       $scope.postInfo2 = snapshot.val();
-  //       $scope.$broadcast('scroll.refreshComplete');
-  //       console.log($scope.postInfo2)
-  //         }, function (errorObject) {
-  //       console.log("The read failed: " + errorObject.code);
-  //     });
-  //   };
-  // }
-  
-  
+   //apply sorting logic here
+  return returnArr;
+};
+$scope.sortedData = $scope.buildData();
+console.log($scope.sortedData)
 
 
   $scope.loadMessages = function () {

@@ -5,8 +5,9 @@ var app = angular.module('ketchup.controllers', [
   'ketchup.menu',
   'ketchup.newPost',
   'ketchup.chat',
-  'ketchup.chatList'
-
+  'ketchup.chatList',
+  'ketchup.friendsList',
+  'ketchup.menuFriendslist'
 ]);
 
 // var app = angular.module('ketchup.controllers', [])

@@ -4,7 +4,7 @@ app.controller('mainCtrl', function( $scope, $timeout, UserService, $localstorag
   $scope.model = {
       'title':'Main'
     }
-   
+
     var ref = new Firebase(FIREBASE_URL);
     var postsRef = new Firebase(FIREBASE_URL + "/posts");
     postsRef.on("value", function(snapshot) {
@@ -14,6 +14,7 @@ app.controller('mainCtrl', function( $scope, $timeout, UserService, $localstorag
       }, function (errorObject) {
         console.log("The read failed: " + errorObject.code);
       });
+  
     $scope.doRefresh = function() {
       console.log("start")
       postsRef.on("value", function(snapshot) {

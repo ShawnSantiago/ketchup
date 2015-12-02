@@ -23,15 +23,22 @@
 
 		<ion-list>
 		
-			<ion-item ng-repeat="messages in postInfo">
+			<ion-item >
 				<div class="row">
 					<div class="col">
+						<div class="list" ng-repeat="friends in friendsList">
+
+    						<a class="item item-avatar" href="#">
+      						<img ng-src="http://graph.facebook.com/{{friends.id}}/picture?type=square">
+     						<h2>Shawn Santiago</h2>
+      						<p>Back off, man. I'm a scientist.</p>
+      						</a>
+						</div>
+						<button class="button button-block button-positive icon ion-plus-circled" ng-click="getFriends()">
+  						Add Facebook Friends
+						</button>
+
 						
-
-						<img ng-repeat="(chatPartners , fbPics) in messages.chatPartners"
-						ng-src=" {{fbPics}}" alt="">
-
-						<p>{{messages.timePosted}}</p>
 					</div>
 					
 				</div>

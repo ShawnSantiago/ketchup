@@ -8,10 +8,10 @@ app.controller('newPostCtrl', function ($scope, $state, $ionicLoading, $localsto
         lenghtOfTime: "1",
         eventDesc: ""
     };
-
+  var user = $localstorage.get('ketchup-user');
   var ref = new Firebase(FIREBASE_URL);
   var postsRef = new Firebase(FIREBASE_URL + "/posts");
- 
+  var messagesRef = new Firebase(FIREBASE_URL + "/users/" + user + "/messages");
   
   $scope.textLocation = function () {
     
@@ -64,12 +64,13 @@ app.controller('newPostCtrl', function ($scope, $state, $ionicLoading, $localsto
     });
   };
 
+
   $scope.submit = function() {
     
 
     var userLocal= $localstorage.get('ketchup-user-location');
-    console.log(userLocal)
     var userData = $localstorage.getObject('ketchup-data');
+    var userFriendsList = $localstorage.setObject('ketchup-user-friends');
     console.log(userData)    
     if( $scope.data.postLocation == null && userData == null ) {
        $ionicPopup.alert({
@@ -81,7 +82,8 @@ app.controller('newPostCtrl', function ($scope, $state, $ionicLoading, $localsto
         name : userData.facebook.cachedUserProfile.name ,
         profileImage : userData.facebook.cachedUserProfile.picture.data.url ,
         location :  userLocal , 
-        message : $scope.data.eventDesc
+        message : $scope.data.eventDesc,
+        comments : 0
 
       });
     }

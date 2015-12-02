@@ -20,8 +20,42 @@
 	    		}" class="col button button-small icon-right ion-navicon-round " ng-model="title">MAP</a>
 	  		<button ng-click="sort()" class="col col-offset-10 button button-small button-assertive icon-right ion-funnel">SORT</button>
 		</div>
+			<div ng-repeat="profiles in postInfo"class="list card">
 
-		<ion-list>
+			  <div class="item item-avatar">
+			    <img ng-src="{{profiles.profileImage}}">
+			    <h2>{{profiles.name}}</h2>
+			    <p>
+			      {{profiles.location}}
+			    </p>
+			   
+			  </div>
+
+			  <div class="item item-body">
+			    <h3>
+			      {{profiles.message}}
+			    </h3>
+			    <p>posted 13 minutes ago</p>
+			    <p>
+		
+			      <a href="#" class="subdued">{{profiles.comments}} Comments</a>
+			    </p>
+			  </div>
+
+			  <div class="item tabs tabs-secondary tabs-icon-left">
+			    
+			    <a class="tab-item" href="#">
+			      <i class="icon ion-chatbox"></i>
+			      Chat
+			    </a>
+			    <a class="tab-item" href="#">
+			      <i class="icon ion-share"></i>
+			      Share
+			    </a>
+			  </div>
+
+			</div>
+		<!-- <ion-list>
 		
 			<ion-item ng-repeat="profiles in postInfo">
 				<div class="row">
@@ -40,21 +74,21 @@
 						</div>
 						
 						<p>{{profiles.message}}</p>
-						<!-- <div class="row row-bottom">
+						 <div class="row row-bottom">
 							<a href="#/pages/mapPage.html" class="col button button-small button-positive icon-right ion-navicon-round">{{profiles.location.distanceTo}}</a>
 							<a href="#/pages/chat.html" class="col button button-small button-assertive icon-right ion-navicon-round">{{profiles.numberOfComments}}</a>
-						</div> -->
+						</div> 
 					</div>
 				</div>
 			</ion-item>
-		</ion-list>
+		</ion-list> -->
 	</ion-content>
 	<ion-footer>
 		<div class="tabs tabs-dark tabs-icon-only">
-			  <a class="tab-item">
+			  <a class="tab-item" href="#/app/friendsList">
 			    <i class="icon ion-person-stalker"></i>
 			  </a>
-			  <a class="tab-item" href="#/app/newPostPage">
+			  <a class="tab-item" href="#/appFriendsList/newPostPage">
 			    <i class="icon ion-compose"></i>
 			  </a>
 			  <a class="tab-item" href="#/app/chatList">
