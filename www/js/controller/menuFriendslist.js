@@ -9,21 +9,22 @@ app.controller('menuFriendslistCtrl', function($scope, $state, UserService, $ion
   	var ref = new Firebase(FIREBASE_URL);
   	var postsRef = new Firebase(FIREBASE_URL + "/users/" + user + "/friendslist");
   	$scope.newList = [];
+  	console.log($scope.newList)
   	$scope.selection = [];
   	var newRole = {selected : true};
   	$scope.$on("$ionicView.enter", function () {
 	    postsRef.on("value", function(snapshot) {
 	    $scope.postInfo = snapshot.val();
 	    console.log($scope.postInfo)	    
-	    $localstorage.setObject('ketchup-user-friends', $scope.postInfo);
+	    $localstorage.setObject('ketchup-user-friends', $scope.postInfo.friends.data);
 	    
 	  	}, function (errorObject) {
 	    	console.log("The read failed: " + errorObject.code);
 		});
   	});
 
-  	$scope.friendsList = $localstorage.getObject('ketchup-user-friends').friends.data;
-  	
+  	$scope.friendsList = $localstorage.getObject('ketchup-user-friends');
+  	 console.log($scope.friendsList)
   	for (var i = 0; i < $scope.friendsList.length; i++) {
     	$scope.newList = $scope.friendsList[i];
     	$scope.newList.selected = false;
