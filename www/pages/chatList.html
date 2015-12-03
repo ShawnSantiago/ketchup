@@ -1,0 +1,54 @@
+
+<ion-view title="{{title}}">
+	<ion-nav-buttons class="button-clear" side="right">
+				<!-- Toggle right side menu -->
+				<button menu-toggle="right" class="button button icon ion-gear-a"></button>
+			</ion-nav-buttons>
+	<ion-content>
+		<ion-refresher pulling-text="Pull To Refresh" on-refresh="doRefresh()"
+            refreshing-text="Fetching ..." refreshing-icon="ion-loading-b"
+          ></ion-refresher>
+
+	  	<!-- <div class="row" >
+	  		<a href="#/app/mainPage" ng-class="{
+	      			'button-dark':model.title == 'Main',
+	    			'button-light':model.title == 'Map'
+	    		}" class="col button button-small icon-right ion-navicon-round " ng-model="title">LIST</a>
+	      		<a href="#/app/mapPage" ng-class="{
+	      			'button-dark':model.title == 'Map',
+	    			'button-light':model.title == 'Main'
+	    		}" class="col button button-small icon-right ion-navicon-round " ng-model="title">MAP</a>
+	  		<button ng-click="sort()" class="col col-offset-10 button button-small button-assertive icon-right ion-funnel">SORT</button>
+		</div> -->
+
+		<ion-list>
+		
+			<ion-item ng-repeat="messages in postInfo">
+				<div class="row">
+					<div class="col">
+						
+
+						<img ng-repeat="(chatPartners , fbPics) in messages.chatPartners"
+						ng-src=" {{fbPics}}" alt="">
+
+						<p>{{messages.timePosted}}</p>
+					</div>
+					
+				</div>
+			</ion-item>
+		</ion-list>
+	</ion-content>
+	<ion-footer>
+		<div class="tabs tabs-dark tabs-icon-only">
+			  <a class="tab-item" href="#/app/friendsList">
+			    <i class="icon ion-person-stalker"></i>
+			  </a>
+			  <a class="tab-item" href="#/app/newPostPage">
+			    <i class="icon ion-compose"></i>
+			  </a>
+			  <a class="tab-item" href="#/app/chatList">
+			    <i class="icon ion-chatboxes"></i>
+			  </a>
+			</div>
+	</ion-footer>
+</ion-view>

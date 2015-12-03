@@ -1,14 +1,14 @@
 
 
 var app = angular.module('ketchup', ['ionic', 'ngCordova',
-	'firebase','angularMoment','ketchup.controllers', 'ketchup.directives', 'ketchup.services'])
+	'firebase','ngOpenFB','ngAutocomplete','angularMoment','ketchup.controllers', 'ketchup.directives', 'ketchup.services',"checklist-model",'ngRoute'])
 
 
 app.constant("FIREBASE_URL", 'http://ketchuptest.firebaseio.com');
 app.constant("FACEBOOK_APP_ID", '1489325994730790');
 
 
-app.run(function ($rootScope, $ionicPlatform, $cordovaStatusbar) {
+app.run(function ($rootScope, $ionicPlatform, $cordovaStatusbar,ngFB) {
 
 
 		$ionicPlatform.ready(function () {
@@ -47,6 +47,12 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 				templateUrl: "pages/menu.html",
 				controller: 'MenuCtrl'
 			})
+		// .state('appFriendsList', {
+		// 		url: "/appFriendsList",
+		// 		abstract: true,
+		// 		templateUrl: "pages/menuFriendslist.html",
+		// 		controller: 'menuFriendslistCtrl'
+		// 	})
 		.state('app.home', {
 			url: "/mainPage",
 			views: {
@@ -77,12 +83,31 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 			}		
 			
 		})
+		.state('app.chatList', {
+			url: "/chatList",
+			views: {
+				'menuContent': {
+					templateUrl: "pages/chatList.html",
+					controller: 'chatListCtrl'
+				}
+			}		
+			
+		})
 		.state('app.newPost', {
 			url: "/newPostPage",
 			views: {
 				'menuContent': {
 					templateUrl: "pages/newPostPage.html",
 					controller: 'newPostCtrl'
+				}
+			}	
+		})
+		.state('app.friendsList', {
+			url: "/friendsList",
+			views: {
+				'menuContent': {
+					templateUrl: "pages/friendsList.html",
+					controller: 'friendsListCtrl'
 				}
 			}	
 		})

@@ -1,49 +1,84 @@
 
 <ion-view title="{{title}}">
-  <ion-content>   	
-      <div class="list card">
-
-        <div class="item">
-          <h2 class="title">Where?</h2>
-          <p><i class="icon ion-navigate"></i> Near me <a class="link" href="#">change?</a></p>
-        </div>
-
-        <div class="item">
-          <h2 class="title">How long are you free?</h2>
-          <div class="button-bar bar-assertive button-bar-hours">
-            <a class="button button-small">1 Hour</a>
-            <a class="button button-small">2 Hours</a>
-            <a class="button button-small">3 Hours</a>
-            <a class="button button-small">More</a>
-          </div>
-        </div>
-
-        <div class="item">
-          <h2 class="title">What do you want to do? <span class="span-optional">(optional)</span></h2>
-          <div class="row">
-            <textarea class="newPost-textarea"></textarea>
+  <ion-content>   
+    <form>
+  
+        <div class="list">
+    
+          <div class="item">
+            <h2 class="title">Where?</h2>
+            <p><i class="icon ion-navigate"></i> Near me <a class="link" ng-click="centerOnMe()">change?</a></p>
+           
+            <div class="row"> 
+              <input type="text" class="col col-75"id="Autocomplete" ng-autocomplete ng-model="data.autoLocation" placeholder="{{data.postLocation}}" />
+              <button  class="col col-25" ng-click="textLocation()">set</button>
+            </div>
+            
           </div>
         
+          <div class="item ">
+            <h2 class="title">How long are you free?</h2>
+            <div class="button-bar bar-assertive button-bar-hours">
+
+              <a class="button button-small"
+              ng-click="data.lenghtOfTime = 1" value="1">1 Hour</a>
+              <a class="button button-small"
+              ng-click="data.lenghtOfTime = 2" value="2">2 Hours</a>
+              <a class="button button-small"
+              ng-click="data.lenghtOfTime = 3" value="3">3 Hours</a>
+              <!-- <a class="button button-small">More</a> -->
+            </div>
+          </div>
+
+          <div class="item">
+            <h2 class="title">What do you want to do? <span class="span-optional">(optional)</span></h2>
+            <div class="row">
+              <textarea class="newPost-textarea" ng-model="data.eventDesc"></textarea>
+            </div>
+          
+          </div>
+          <div class="item">
+          <h2 class="title">Friends <span class="span-optional">(optional)</span></h2>
+          <div>
+              
+                <div class="item item-avatar" ng-repeat="friends in user.roles">
+                  <img ng-src="http://graph.facebook.com/{{friends.id}}/picture?type=square">
+                  <h2>{{friends.name}}</h2>
+                </div>
+                <button class="button button-block button-positive icon ion-plus-circled" ng-click="openPopover($event)">
+                Add Facebook Friends
+                </button>
+          </div>
+         
+            
+          </div>
+          
+          <div class="item">
+            <button class="item button button-block button-assertive" type="submit" ng-click="submit()" >
+            Go!
+            </button>
+          </div>
+
         </div>
-
-        <button class="item button button-block button-assertive" href="#">
-          Go!
-        </button>
-
-      </div>
+    </form> 
+    
   </ion-content>
-  <ion-footer>
-    <div class="tabs tabs-dark tabs-icon-only">
-        <a class="tab-item">
+  <!-- <div class="bar bar-subfooter">
+      <div class="tabs tabs-dark tabs-icon-only">
+        <a class="tab-item" href="#/app/friendsList">
           <i class="icon ion-person-stalker"></i>
         </a>
         <a class="tab-item" href="#/app/newPostPage">
           <i class="icon ion-compose"></i>
         </a>
-        <a class="tab-item" href="#/app/chatPage">
+        <a class="tab-item" href="#/app/chatList">
           <i class="icon ion-chatboxes"></i>
         </a>
       </div>
-  </ion-footer>
+    </div> -->
+  
+  <ion-footer-bar class='bar-dark' align-title='center' >
+    
+  </ion-footer-bar>
 
 </ion-view>

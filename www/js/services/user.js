@@ -1,16 +1,20 @@
 var app = angular.module('ketchup.services.userService', []);
 
 
-app.service('UserService', function (FIREBASE_URL,
+app.service('UserService', function (
                                      $q,
                                      $rootScope,
                                      $localstorage,
                                      $ionicPopup,
+                                     FIREBASE_URL,
                                      $firebaseAuth,
                                      $firebase,
                                      $firebaseObject) {
+	var cUser = $localstorage.get('ketchup-user');
 	var ref = new Firebase(FIREBASE_URL);
 	var usersRef = new Firebase(FIREBASE_URL + "/users");
+	var friendsRef = new Firebase(FIREBASE_URL + "/users/" + cUser);
+  
 	var self = {
 		/* This contains the currently logged in user */
 		current: {},
@@ -74,7 +78,7 @@ app.service('UserService', function (FIREBASE_URL,
 				user.$loaded(function () {
 					// When we are sure the object has been completely
 					// loaded from firebase then resolve the promise.
-					//self.current = user;
+					self.current = user;
 					//self.identifyUser();
 					d.resolve(self.current);
 				});
@@ -94,6 +98,120 @@ app.service('UserService', function (FIREBASE_URL,
 		},
 		
 		 
+		getFriends: function () {
+			var d = $q.defer();
+					
+
+					//
+					// Initiate the facebook login process
+					//
+					console.log('Calling facebook login');
+					openFB.login(
+						function (response) {
+							console.log(response);
+							if (response.status === 'connected') {
+								console.log('Facebook login succeeded');
+								//
+								// Facebook login was a success, get details about the current
+								// user
+								//
+								// UNCOMMENT WHEN GOING THROUGH LECTURES
+								
+								var token = response.authResponse.accessToken;
+								openFB.api({
+									path: '/me/friends',
+									
+									success: function (userData) {
+										console.log('Got data from facebook about current user');
+										console.log(userData);
+										//
+										// We got details of the current user now authenticate via firebase
+										//
+										console.log('Authenticating with firebase');
+
+
+										var auth = $firebaseAuth(ref);
+										auth.$authWithOAuthToken("facebook", token)
+											.then(function (authData) {
+												console.log("Authentication success, logged in as:", authData.uid);
+												console.log(authData);
+												
+												// We've authenticated, now it's time to either get an existing user
+												// object or create a new one.
+													
+												friendsRef.child("friendslist")
+
+													.transaction(function (currentUserData) {
+														
+															return {
+																'friends': userData
+																
+															};
+														
+													},
+													function (error, committed) {
+														//
+														// This second function in the transaction clause is always called
+														// whether the user was created or is being retrieved.
+														//
+														// We want to store the userid in localstorage as well as load the user
+														// and store it in the self.current property.
+														//
+														$localstorage.set('ketchup-user', authData.uid);
+														$localstorage.setObject('ketchup-data', authData);
+														self.current = $firebaseObject(usersRef.child(authData.uid));
+														self.current.$loaded(function () {
+															// When we are sure the object has been completely
+															// loaded from firebase then resolve the promise.
+															d.resolve(self.current);
+														});
+													});
+											})
+											.catch(function (error) {
+												console.error("Authentication failed:", error);
+												//
+												// We've failed to authenticate, show the user an error message.
+												//
+												$ionicPopup.alert({
+													title: "Error",
+													template: 'There was an error logging you in with facebook, please try later.'
+												});
+												d.reject(error);
+											});
+
+									},
+									error: function (error) {
+										console.error('Facebook error: ' + error.error_description);
+										//
+										// There was an error calling the facebook api to get details about the
+										// current user. Show the user an error message
+										//
+										$ionicPopup.alert({
+											title: "Facebook Error",
+											template: error.error_description
+										});
+										d.reject(error);
+									}
+								});
+								
+							} else {
+								console.error('Facebook login failed');
+								//
+								// There was an error authenticating with facebook
+								// Show the user an error message
+								//
+								$ionicPopup.alert({
+									title: "Facebook Error",
+									template: 'Failed to login with facebook'
+								});
+								d.reject(error);
+							}
+						},
+						{
+							scope: 'email,user_friends,read_custom_friendlists' // Comma separated list of permissions to request from facebook
+						});
+				},
+ 
 		 
 		loginUser: function () {
 			var d = $q.defer();
@@ -137,7 +255,7 @@ app.service('UserService', function (FIREBASE_URL,
 											.then(function (authData) {
 												console.log("Authentication success, logged in as:", authData.uid);
 												console.log(authData);
-												//
+												
 												// We've authenticated, now it's time to either get an existing user
 												// object or create a new one.
 												//
@@ -168,6 +286,7 @@ app.service('UserService', function (FIREBASE_URL,
 														// and store it in the self.current property.
 														//
 														$localstorage.set('ketchup-user', authData.uid);
+														$localstorage.setObject('ketchup-data', authData);
 														self.current = $firebaseObject(usersRef.child(authData.uid));
 														self.current.$loaded(function () {
 															// When we are sure the object has been completely
