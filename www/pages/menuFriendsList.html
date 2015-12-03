@@ -25,14 +25,19 @@
 		</ion-header-bar >
 		<ion-content >
 		
-					<div class="list" ng-repeat="friends in friendsList">
-							<ion-checkbox ng-model="newList.selected" >
-    						<a class="item item-avatar" href="#">
-      						<img ng-src="http://graph.facebook.com/{{friends.id}}/picture?type=square">
-     						<h2>{{friends.name}}</h2>
+					<div class="list" ng-repeat="role in roles">
+						 	
+    						<div class="item item-avatar">
+    						
+    						
+    						
+      						<img ng-src="http://graph.facebook.com/{{role.id}}/picture?type=square">
+     						<h2>{{role.name}}</h2>
+     						<label class="checkbox">
+       							<input type="checkbox" data-checklist-model="user.roles" data-checklist-value="role" ng-click="checkInfo()">
+     						</label>
       						
-      						</a>
-      						</ion-checkbox>
+      						</div>
 						</div>
 				
 				<!--

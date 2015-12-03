@@ -1,7 +1,7 @@
 
 
 var app = angular.module('ketchup', ['ionic', 'ngCordova',
-	'firebase','ngOpenFB','ngAutocomplete','angularMoment','ketchup.controllers', 'ketchup.directives', 'ketchup.services'])
+	'firebase','ngOpenFB','ngAutocomplete','angularMoment','ketchup.controllers', 'ketchup.directives', 'ketchup.services',"checklist-model",'ngRoute'])
 
 
 app.constant("FIREBASE_URL", 'http://ketchuptest.firebaseio.com');
@@ -93,7 +93,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 			}		
 			
 		})
-		.state('appFriendsList.newPost', {
+		.state('app.newPost', {
 			url: "/newPostPage",
 			views: {
 				'menuContent': {
