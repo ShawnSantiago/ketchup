@@ -1,13 +1,18 @@
 var app = angular.module('ketchup.newPost', []);
 
 app.controller('newPostCtrl', function ($scope, $state, $ionicLoading, $localstorage, UserService, $ionicPopup, FIREBASE_URL, $firebaseAuth, $firebase, $firebaseObject,$location,
-$routeParams, $ionicPopover) {
+$routeParams, $ionicPopover, $route) {
 
   var user = $localstorage.get('ketchup-user');
   var ref = new Firebase(FIREBASE_URL);
   var postsRef = new Firebase(FIREBASE_URL + "/posts");
   var messagesRef = new Firebase(FIREBASE_URL + "/users/" + user + "/messages");
   var friendsRef = new Firebase(FIREBASE_URL + "/users/" + user + "/friendslist/friends/data");
+
+  friendsRef.on("value", function(snapshot) {
+    $scope.postInfo = snapshot.val();
+    $localstorage.setObject('ketchup-user-friends', $scope.postInfo);
+  })
 
   $scope.title = 'New Post';
   $scope.data = {
@@ -16,27 +21,15 @@ $routeParams, $ionicPopover) {
         lenghtOfTime: "1",
         eventDesc: ""
     };
-    $scope.friendsList = [{id: "10207042891024578", name: "Kristen Nakamura"},
-               {id: "10154494517268975", name: "Franky Sanche"}]
+    // $scope.friendsList = [{id: "10207042891024578", name: "Kristen Nakamura"},
+    //            {id: "10154494517268975", name: "Franky Sanche"}]
 
-    
-    $scope.roles = $scope.friendsList;
-    
+    console.log($scope.postInfo )
+    $scope.roles = $localstorage.getObject('ketchup-user-friends');
     $scope.user = {
       roles: []
     };
-  $scope.postFriends = $localstorage.getObject('ketchup-post-user');
-  $scope.$watchCollection('postFriends', function() {
-      $
-      console.log('get ' + $scope.postFriends)
 
-  });
-  
-
-  
-  console.log($scope.log)
-
-  
   $scope.textLocation = function () {
     
   
@@ -134,7 +127,8 @@ $routeParams, $ionicPopover) {
         profileImage : userData.facebook.cachedUserProfile.picture.data.url ,
         location :  userLocal , 
         message : $scope.data.eventDesc,
-        comments : 0
+        comments : 0,
+        friends: user.roles
 
       });
       $state.go('app.home');
@@ -161,9 +155,8 @@ $routeParams, $ionicPopover) {
     console.log("The read failed: " + errorObject.code);
 });
 
-  $scope.$on("$ionicView.beforeLeave", function () {
+  $scope.$on("$ionicView.enter", function () {
     console.log("newPost-Leave");
-    $localstorage.setObject('ketchup-post-user', null);
     $route.reload();
  
   }); 

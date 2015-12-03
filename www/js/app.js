@@ -47,12 +47,12 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 				templateUrl: "pages/menu.html",
 				controller: 'MenuCtrl'
 			})
-		.state('appFriendsList', {
-				url: "/appFriendsList",
-				abstract: true,
-				templateUrl: "pages/menuFriendslist.html",
-				controller: 'menuFriendslistCtrl'
-			})
+		// .state('appFriendsList', {
+		// 		url: "/appFriendsList",
+		// 		abstract: true,
+		// 		templateUrl: "pages/menuFriendslist.html",
+		// 		controller: 'menuFriendslistCtrl'
+		// 	})
 		.state('app.home', {
 			url: "/mainPage",
 			views: {
