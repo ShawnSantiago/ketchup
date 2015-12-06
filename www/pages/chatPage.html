@@ -2,15 +2,15 @@
 <ion-view title="{{title}}">
 	<ion-content delegate-handle="show-page" >
 
-		<!-- Loading Indicator -->
+		<!-- Loading Indicator 
 		<div class="row">
-			<div class="col col-33 col-offset-33 loading"
+			<div class="col col-50 col-offset-33 loading"
 			     ng-if="data.loading" >
-				<ion-spinner icon="ripple" class="col col-33" align="center" ></ion-spinner >
+				<ion-spinner icon="ripple" class="col col-50" align="center" ></ion-spinner >
 				<p >Loading messages...</p >
 			</div >
 		</div>
-		<!-- Empty room message -->
+		 Empty room message -->
 		<div class="loading"
 		     ng-show="!data.loading && data.messages.length == 0" >
 			<p >This room is empty, be the first to post!</p >
@@ -19,19 +19,19 @@
 		<!-- Discussion list -->
 		<ol class="discussion" >
 			<li class=""
-			    ng-class="{'other':message.userId != user.current.userId, 'self':!(message.userId != user.current.userId)}"
-			    ng-repeat="message in data.messages" >
+			
+			    ng-repeat="message in messageInfo" >
 				<div class="avatar"
-				     ng-if="message.userId != user.current.userId" >
-					<img ng-src="{{message.profilePic}}" />
+				     ng-if="message.form != user" >
+					<img ng-src="http://graph.facebook.com/{{message.from}}/picture?type=square" />
 				</div >
 				<div class="messages" >
-					<p >{{message.text}}</p >
-					<time >{{message.username}} • <span am-time-ago="message.timestamp" ></span ></time >
+					<p >{{message.content}}</p >
+					<time ><span am-time-ago="message.timestamp" ></span ></time >
 				</div >
 				<div class="avatar"
-				     ng-if="!(message.userId != user.current.userId)" >
-					<img ng-src="{{message.profilePic}}" />
+				     ng-if="!(message.form != user)" >
+					<img ng-src="http://graph.facebook.com/{{message.from}}/picture?type=square" />
 				</div >
 			</li >
 		</ol >
@@ -43,11 +43,11 @@
 		<label class="item-input-wrapper" >
 			<input type="text"
 			       placeholder="Type your message"
-			       ng-enter="sendMessage()"
-			       ng-model="data.message" />
+			       ng-enter="addMessage()"
+			       ng-model="message" />
 		</label >
 		<button class="button button-clear"
-		        ng-click="sendMessage()" >
+		        ng-click="addMessage()" >
 			Send
 		</button >
 	</ion-footer-bar >

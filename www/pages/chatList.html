@@ -23,19 +23,30 @@
 
 		<ion-list>
 		
-			<ion-item ng-repeat="messages in postInfo">
-				<div class="row">
-					<div class="col">
-						
+			
+				
+				<div class="list card" ng-repeat="messages in data">
 
-						<img ng-repeat="(chatPartners , fbPics) in messages.chatPartners"
-						ng-src=" {{fbPics}}" alt="">
+				  <div class="item item-avatar">
+				    <img ng-src="{{messages.profileImage}}" alt="">
 
-						<p>{{messages.timePosted}}</p>
-					</div>
-					
+				    <h2>{{messages.creatorName}}</h2>
+				    <p>{{messages.title}}</p>
+				  </div>
+
+				  <div class="item item-body">
+				    <img ng-repeat="friends in messages.friends" ng-src="http://graph.facebook.com/{{friends.id}}/picture?type=square" alt="">
+				  </div>
+
+				  <a class="item item-icon-left assertive" ng-click="chatActual(messages.id)">
+				    <i class="icon ion-chatboxes"></i>
+				    Enter Chat
+				  </a>
+
 				</div>
-			</ion-item>
+					
+				
+		
 		</ion-list>
 	</ion-content>
 	<ion-footer>
