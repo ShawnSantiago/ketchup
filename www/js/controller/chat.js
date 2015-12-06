@@ -2,7 +2,7 @@ var app = angular.module('ketchup.chat', [])
 
 app.controller('chatCtrl', function ($scope,
                                      FIREBASE_URL,
-                                     UserService,$localstorage,chatMessages,$ionicScrollDelegate) {
+                                     UserService,$localstorage,chatMessages,$ionicScrollDelegate,$route) {
   $scope.title = 'Chat';
   $scope.user = $localstorage.get('ketchup-user-id');
   $scope.currentChat = $localstorage.get('ketchup-user-CurrentChat')
@@ -57,6 +57,7 @@ app.controller('chatCtrl', function ($scope,
 
   $scope.$on("$ionicView.enter", function () {
     console.log("chatCtrl-Enter");
+    $route.reload();
   });
 
   $scope.$on("$ionicView.beforeLeave", function () {

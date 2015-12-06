@@ -143,7 +143,7 @@ $routeParams, $ionicPopover, $route) {
                 friends: $scope.user.roles,
                 id: $scope.data.id,
                 title : $scope.data.title,
-                messagesArray : ""
+                
                 
               };
             
