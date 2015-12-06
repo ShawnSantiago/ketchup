@@ -2,7 +2,7 @@ var app = angular.module('ketchup.chat', [])
 
 app.controller('chatCtrl', function ($scope,
                                      FIREBASE_URL,
-                                     UserService,$localstorage,chatMessages) {
+                                     UserService,$localstorage,chatMessages,$ionicScrollDelegate) {
   $scope.title = 'Chat';
   $scope.user = $localstorage.get('ketchup-user-id');
   $scope.currentChat = $localstorage.get('ketchup-user-CurrentChat')
@@ -26,6 +26,7 @@ app.controller('chatCtrl', function ($scope,
 
       // reset the message input
       $scope.message = "";
+      $ionicScrollDelegate.scrollBottom();
     };
 
     var postId;
