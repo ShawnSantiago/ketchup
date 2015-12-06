@@ -157,9 +157,7 @@ app.service('UserService', function (
 														// We want to store the userid in localstorage as well as load the user
 														// and store it in the self.current property.
 														//
-														$localstorage.set('ketchup-user', authData.uid);
-														$localstorage.setObject('ketchup-data', authData);
-														self.current = $firebaseObject(usersRef.child(authData.uid));
+														
 														self.current.$loaded(function () {
 															// When we are sure the object has been completely
 															// loaded from firebase then resolve the promise.
@@ -243,7 +241,8 @@ app.service('UserService', function (
 									params: {},
 									success: function (userData) {
 										console.log('Got data from facebook about current user');
-										console.log(userData);
+										console.log(userData.id);
+										$localstorage.set('ketchup-user-id', userData.id);
 										//
 										// We got details of the current user now authenticate via firebase
 										//

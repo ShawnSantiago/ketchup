@@ -4,14 +4,20 @@
     <form>
   
         <div class="list">
-    
+          <div class="item">
+            <h2 class="title">Title</h2>           
+            <div class="row"> 
+              <input type="text" ng-model="data.title" />
+            </div>
+            
+          </div>
           <div class="item">
             <h2 class="title">Where?</h2>
-            <p><i class="icon ion-navigate"></i> Near me <a class="link" ng-click="centerOnMe()">change?</a></p>
-           
+        
+            
             <div class="row"> 
-              <input type="text" class="col col-75"id="Autocomplete" ng-autocomplete ng-model="data.autoLocation" placeholder="{{data.postLocation}}" />
-              <button  class="col col-25" ng-click="textLocation()">set</button>
+              <input type="text" class="col col-75"id="Autocomplete" ng-autocomplete ng-model="data.postLocation" />
+              <button  class="col col-25 icon ion-navigate" ng-click="centerOnMe()"></button>
             </div>
             
           </div>

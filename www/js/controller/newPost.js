@@ -4,9 +4,8 @@ app.controller('newPostCtrl', function ($scope, $state, $ionicLoading, $localsto
 $routeParams, $ionicPopover, $route) {
 
   var user = $localstorage.get('ketchup-user');
-  var ref = new Firebase(FIREBASE_URL);
   var postsRef = new Firebase(FIREBASE_URL + "/posts");
-  var messagesRef = new Firebase(FIREBASE_URL + "/users/" + user + "/messages");
+  var messagesRef = new Firebase(FIREBASE_URL + "/messages");
   var friendsRef = new Firebase(FIREBASE_URL + "/users/" + user + "/friendslist/friends/data");
 
   friendsRef.on("value", function(snapshot) {
@@ -19,21 +18,46 @@ $routeParams, $ionicPopover, $route) {
         postLocation: "",
         autoLocation: "",
         lenghtOfTime: "1",
-        eventDesc: ""
+        eventDesc: "",
+        id : makeid(),
+        title : ""
     };
+    console.log($scope.data.title)
+
     // $scope.friendsList = [{id: "10207042891024578", name: "Kristen Nakamura"},
     //            {id: "10154494517268975", name: "Franky Sanche"}]
-
-    console.log($scope.postInfo )
     $scope.roles = $localstorage.getObject('ketchup-user-friends');
     $scope.user = {
       roles: []
     };
+    $scope.$watchCollection('data.postLocation', function() {
+    console.log($scope.data.postLocation)
+    });
+   
+    var dataRefined = [];
+    function makeid() {
+        var text = "";
+        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
+        for( var i=0; i < 10; i++ )
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+        return text;
+    }
+ 
+    $scope.$watchCollection('user.roles', function() {
+      var data = $scope.user.roles; 
+      console.log(data)
+      angular.forEach(data, function(data) {
+        delete data['$$hashKey'];
+      }, dataRefined)
+      console.log(dataRefined)
+    });
+    
   $scope.textLocation = function () {
     
   
-    $localstorage.set('ketchup-user-location', $scope.data.autoLocation);
+    $localstorage.set('ketchup-user-location', $scope.data.postLocation);
     console.log($scope.data.autoLocation)
     $ionicPopup.alert({
      template: 'Location Set'
@@ -80,31 +104,7 @@ $routeParams, $ionicPopover, $route) {
       alert('Unable to get location: ' + error.message);
     });
   };
-  $scope.show = function() {
-
-   // Show the action sheet
-   var hideSheet = $ionicActionSheet.show({
-     buttons: [
-       { text: '<b>Share</b> This' },
-       { text: 'Move' }
-     ],
-     destructiveText: 'Delete',
-     titleText: 'Modify your album',
-     cancelText: 'Cancel',
-     cancel: function() {
-          // add cancel code..
-        },
-     buttonClicked: function(index) {
-       return true;
-     }
-   });
-
-   // For example's sake, hide the sheet after two seconds
-   $timeout(function() {
-     hideSheet();
-   }, 2000);
-
- };
+  
 
 
   $scope.submit = function() {
@@ -125,12 +125,32 @@ $routeParams, $ionicPopover, $route) {
       postsRef.push({
         name : userData.facebook.cachedUserProfile.name ,
         profileImage : userData.facebook.cachedUserProfile.picture.data.url ,
-        location :  userLocal , 
+        location :  $scope.data.postLocation , 
         message : $scope.data.eventDesc,
         comments : 0,
-        friends: user.roles
+        friends: $scope.user.roles,
+        id: $scope.data.id,
+        title : $scope.data.title
+        
 
       });
+      messagesRef.child($scope.data.id)
+          .transaction(function () {  
+              return {
+                creatorName : userData.facebook.cachedUserProfile.name ,
+                profileImage : userData.facebook.cachedUserProfile.picture.data.url ,
+                comments : 0,
+                friends: $scope.user.roles,
+                id: $scope.data.id,
+                title : $scope.data.title,
+                messagesArray : ""
+                
+              };
+            
+          },
+          function (error, committed) {
+              console.log("error: " + error)
+            });
       $state.go('app.home');
     }
   }
@@ -148,12 +168,12 @@ $routeParams, $ionicPopover, $route) {
     $scope.$on('$destroy', function() {
       $scope.popover.remove();
     });
-  $scope.$on("$ionicView.enter", function () {
-    console.log("chatCtrl-Enter");
+    $scope.$on("$ionicView.enter", function () {
+      console.log("chatCtrl-Enter");
     
-  }, function (errorObject) {
+    }, function (errorObject) {
     console.log("The read failed: " + errorObject.code);
-});
+    });
 
   $scope.$on("$ionicView.enter", function () {
     console.log("newPost-Leave");
