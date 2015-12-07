@@ -42,6 +42,18 @@ app.factory("chatMessages", ["$firebaseArray",'$localstorage','FIREBASE_URL',
   }
 ]);
 
+app.directive('focusInput', function($timeout) {
+  return {
+    link: function(scope, element, attrs) {
+      element.bind('click', function() {
+        $timeout(function() {
+          element.parent().parent().find('input')[0].focus();
+        });
+      });
+    }
+  };
+});
+
 // app.factory('Message', ['$firebase','$localstorage','FIREBASE_URL',
 //   function($firebase, $localstorage, FIREBASE_URL) {
 //     var ref = new Firebase(FIREBASE_URL);

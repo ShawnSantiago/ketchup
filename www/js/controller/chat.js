@@ -12,6 +12,7 @@ app.controller('chatCtrl', function ($scope,
     $localstorage.setObject('ketchup-user-friends', $scope.postInfo);
   
   
+  
   console.log($scope.user)
   $scope.messages = chatMessages;
 
