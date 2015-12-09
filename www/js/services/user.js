@@ -9,7 +9,8 @@ app.service('UserService', function (
                                      FIREBASE_URL,
                                      $firebaseAuth,
                                      $firebase,
-                                     $firebaseObject) {
+                                     $firebaseObject,
+                                     OpenFB) {
 	var cUser = $localstorage.get('ketchup-user');
 	var ref = new Firebase(FIREBASE_URL);
 	var usersRef = new Firebase(FIREBASE_URL + "/users");
@@ -106,7 +107,7 @@ app.service('UserService', function (
 					// Initiate the facebook login process
 					//
 					console.log('Calling facebook login');
-					openFB.login(
+					OpenFB.login(
 						function (response) {
 							console.log(response);
 							if (response.status === 'connected') {
@@ -118,7 +119,7 @@ app.service('UserService', function (
 								// UNCOMMENT WHEN GOING THROUGH LECTURES
 								
 								var token = response.authResponse.accessToken;
-								openFB.api({
+								OpenFB.api({
 									path: '/me/friends',
 									
 									success: function (userData) {
@@ -224,7 +225,7 @@ app.service('UserService', function (
 					// Initiate the facebook login process
 					//
 					console.log('Calling facebook login');
-					openFB.login(
+					OpenFB.login(
 						function (response) {
 							console.log(response);
 							if (response.status === 'connected') {
@@ -236,7 +237,7 @@ app.service('UserService', function (
 								// UNCOMMENT WHEN GOING THROUGH LECTURES
 								
 								var token = response.authResponse.accessToken;
-								openFB.api({
+								OpenFB.login({
 									path: '/me',
 									params: {},
 									success: function (userData) {

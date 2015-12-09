@@ -7,7 +7,7 @@ $routeParams, $ionicPopover, $route) {
   var postsRef = new Firebase(FIREBASE_URL + "/posts");
   var messagesRef = new Firebase(FIREBASE_URL + "/messages");
   var friendsRef = new Firebase(FIREBASE_URL + "/users/" + user + "/friendslist/friends/data");
-  
+  $scope.locationLocal = $localstorage.get('ketchup-user-location')
   friendsRef.on("value", function(snapshot) {
     $scope.postInfo = snapshot.val();
     $localstorage.setObject('ketchup-user-friends', $scope.postInfo);
@@ -29,8 +29,10 @@ $routeParams, $ionicPopover, $route) {
     $scope.user = {
       roles: []
     };
-    $scope.$watchCollection('locationLocal', function() {
-      $scope.data.postLocation = $scope.locationLocal
+    $scope.$watchCollection('data.postLocation', function() {
+      $scope.data.postLocation = $localstorage.get('ketchup-user-location') ;
+      console.log('data Changed')
+      console.log($scope.data.postLocation )
     });
    
     var dataRefined = [];
@@ -56,19 +58,20 @@ $routeParams, $ionicPopover, $route) {
     
   }
     
-  $scope.textLocation = function () {
+  // $scope.textLocation = function () {
     
   
-    $localstorage.set('ketchup-user-location', $scope.data.postLocation);
-    console.log($scope.data.autoLocation)
-    $ionicPopup.alert({
-     template: 'Location Set'
-   });
-    console.log("set");
+  //   $localstorage.set('ketchup-user-location', $scope.data.postLocation);
+  //   console.log($scope.data.autoLocation)
+  //   $ionicPopup.alert({
+  //    template: 'Location Set'
+  //  });
+  //   console.log("set");
 
-  };
+  // };
   $scope.centerOnMe = function () {
     console.log("Centering");
+    // $localstorage.set('ketchup-user-location',null)
 
     $scope.loading = $ionicLoading.show({
       content: 'Getting current location...',
@@ -87,7 +90,6 @@ $routeParams, $ionicPopover, $route) {
                     $scope.data.postLocation = results[1].formatted_address;
                     
                     $localstorage.set('ketchup-user-location',results[1].formatted_address)
-                    $scope.locationLocal = $localstorage.get('ketchup-user-location')
                     
                 } else {
                     alert('Location not found');
@@ -184,10 +186,9 @@ $routeParams, $ionicPopover, $route) {
 
   $scope.$on("$ionicView.beforeLeave", function () {
     console.log("newPost-Leave");
-    $localstorage.set('ketchup-user-location','')
-    $scope.data.postLocation = ""; 
-    
-    
+    $scope.data.postLocation = "";
+    $localstorage.set('ketchup-user-location',"");
+
  
   }); 
 

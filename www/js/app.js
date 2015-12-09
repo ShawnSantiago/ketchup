@@ -1,7 +1,7 @@
 
 
 var app = angular.module('ketchup', ['ionic', 'ngCordova',
-	'firebase','ngOpenFB','ngAutocomplete','angularMoment','ketchup.controllers', 'ketchup.directives', 'ketchup.services',"checklist-model",'ngRoute'])
+	'firebase','openFB','ngAutocomplete','angularMoment','ketchup.controllers', 'ketchup.directives', 'ketchup.services',"checklist-model",'ngRoute'])
 
 
 app.constant("FIREBASE_URL", 'http://ketchuptest.firebaseio.com');
