@@ -4,6 +4,8 @@ app.controller('mainCtrl', function( $scope, $timeout, UserService, $localstorag
   $scope.model = {
       'title':'Main'
     }
+    $scope.Math = window.Math;
+    $scope.currentTime = new Date().getTime();
     var userLocal= $localstorage.get('ketchup-user-location');
     var ref = new Firebase(FIREBASE_URL);
     var postsRef = new Firebase(FIREBASE_URL + "/posts");

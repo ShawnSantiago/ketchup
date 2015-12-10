@@ -16,8 +16,9 @@ $routeParams, $ionicPopover, $route) {
   $scope.title = 'New Post';
   $scope.data = {
         postLocation: "",
+        postLocationNameShort: "",
         autoLocation: "",
-        lenghtOfTime: "1",
+        lenghtOfTime: "",
         eventDesc: "",
         id : makeid(),
         title : ""
@@ -83,7 +84,8 @@ $routeParams, $ionicPopover, $route) {
             if (status == google.maps.GeocoderStatus.OK) {
                 if (results[1]) {
                     console.log(results)
-                    $scope.data.postLocation = results[1].address_components[0].short_name;
+                    $scope.data.postLocationNameShort = results[1].address_components[0].short_name;
+                    $scope.data.postLocation = results[1].formatted_address;
                     $localstorage.set('ketchup-user-latlng',results[1].formatted_address);
                     $localstorage.set('ketchup-user-location',results[1].formatted_address);
                     $scope.locationLocal = $localstorage.get('ketchup-user-location');
@@ -124,17 +126,19 @@ $routeParams, $ionicPopover, $route) {
     } else {
       $localstorage.setObject('ketchup-post-user', null);
       
-      
+      var fulldate = new Date().getTime()
+
       postsRef.push({
         name : userData.facebook.cachedUserProfile.name ,
         profileImage : userData.facebook.cachedUserProfile.picture.data.url ,
         location :  $scope.data.postLocation , 
+        locationNameShort : $scope.data.postLocationNameShort,
         message : $scope.data.eventDesc,
         comments : 0,
         friends: $scope.user.roles,
         id: $scope.data.id,
-        title : $scope.data.title
-        
+        date: fulldate,
+        time: lenghtOfTime
 
       });
       messagesRef.child($scope.data.id)
@@ -145,7 +149,7 @@ $routeParams, $ionicPopover, $route) {
                 comments : 0,
                 friends: $scope.user.roles,
                 id: $scope.data.id,
-                title : $scope.data.title,
+                title : $scope.data.eventDesc
 
                 
               };

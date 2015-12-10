@@ -17,7 +17,44 @@
 		</div >
 
 		<!-- Discussion list -->
-		<ol class="discussion" >
+		<div ng-repeat="message in messageInfo" class="message-wrapper"
+                >
+      
+                  <div ng-if="message.from !== user">
+                      
+                    <img  class="profile-pic left" 
+                          ng-src="http://graph.facebook.com/{{message.from}}/picture?type=square" />
+      
+                      <div class="chat-bubble left">
+      
+                          <div class="message" ng-bind-html="message.content" autolinker>
+                          </div>
+   
+      
+                      </div>
+                  </div>
+      
+                  <div ng-if="message.from === user">
+                    
+                       <img class="profile-pic right" 
+                          ng-src="http://graph.facebook.com/{{message.from}}/picture?type=square" />
+                    
+                      <div class="chat-bubble right">
+      
+                          <div class="message" ng-bind-html="message.content" autolinker>
+                          </div>
+      
+              
+      
+                      </div>
+                    
+                  </div>
+      
+                  <div class="cf"></div>
+      
+              </div>
+
+		<!-- <ol class="discussion" >
 			<li class=""
 			
 			    ng-repeat="message in messageInfo" >
@@ -34,7 +71,7 @@
 					<img ng-src="http://graph.facebook.com/{{message.from}}/picture?type=square" />
 				</div >
 			</li >
-		</ol >
+		</ol > -->
 	</ion-content >
 
 	<!-- Send Message Footer Area -->
