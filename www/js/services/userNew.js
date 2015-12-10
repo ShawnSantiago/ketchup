@@ -11,8 +11,8 @@ app.service('UserService', function (
                                      $firebase,
                                      $firebaseObject, 
                                      $ionicModal, 
-                                     $timeout, 
-                                     ngFB) {
+                                     $timeout
+                                     ) {
 	var ref = new Firebase(FIREBASE_URL);
 	var usersRef = new Firebase(FIREBASE_URL + "/users");
 	var self = {

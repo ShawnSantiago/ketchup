@@ -10,7 +10,8 @@ app.service('UserService', function (
                                      $firebaseAuth,
                                      $firebase,
                                      $firebaseObject,
-                                     OpenFB) {
+                                      $ionicHistory,
+                                      $state) {
 	var cUser = $localstorage.get('ketchup-user');
 	var ref = new Firebase(FIREBASE_URL);
 	var usersRef = new Firebase(FIREBASE_URL + "/users");
@@ -94,8 +95,12 @@ app.service('UserService', function (
 		 
 		 
 		logoutUser: function () {
-			$localstorage.set('ketchup-user', null);
-			self.current = {};
+			$ionicHistory.clearCache().then(function(){
+				$localstorage.set('ketchup-user', null);
+				self.current = {};
+				$state.go('loginPage');
+			 })
+			
 		},
 		
 		 
@@ -107,7 +112,7 @@ app.service('UserService', function (
 					// Initiate the facebook login process
 					//
 					console.log('Calling facebook login');
-					OpenFB.login(
+					openFB.login(
 						function (response) {
 							console.log(response);
 							if (response.status === 'connected') {
@@ -119,7 +124,7 @@ app.service('UserService', function (
 								// UNCOMMENT WHEN GOING THROUGH LECTURES
 								
 								var token = response.authResponse.accessToken;
-								OpenFB.api({
+								openFB.api({
 									path: '/me/friends',
 									
 									success: function (userData) {
@@ -225,7 +230,7 @@ app.service('UserService', function (
 					// Initiate the facebook login process
 					//
 					console.log('Calling facebook login');
-					OpenFB.login(
+					openFB.login(
 						function (response) {
 							console.log(response);
 							if (response.status === 'connected') {
@@ -237,7 +242,7 @@ app.service('UserService', function (
 								// UNCOMMENT WHEN GOING THROUGH LECTURES
 								
 								var token = response.authResponse.accessToken;
-								OpenFB.login({
+								openFB.api({
 									path: '/me',
 									params: {},
 									success: function (userData) {

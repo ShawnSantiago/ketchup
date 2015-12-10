@@ -4,7 +4,7 @@ app.controller('mainCtrl', function( $scope, $timeout, UserService, $localstorag
   $scope.model = {
       'title':'Main'
     }
-
+    var userLocal= $localstorage.get('ketchup-user-location');
     var ref = new Firebase(FIREBASE_URL);
     var postsRef = new Firebase(FIREBASE_URL + "/posts");
     postsRef.on("value", function(snapshot) {
@@ -38,8 +38,11 @@ app.controller('mainCtrl', function( $scope, $timeout, UserService, $localstorag
   };
 
     $scope.title = 'Home';
-   
-    
+  $scope.mapDirection = function(data) {
+    $localstorage.setObject('ketchup-user-latlng', {latlang:data, dirBoolean:true});
+    $state.go('app.map');
+    };
+  
     
   $scope.logout = function () {
     UserService.logoutUser();

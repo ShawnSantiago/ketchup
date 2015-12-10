@@ -16,9 +16,15 @@
     		}" class="col button button-small icon-right ion-navicon-round " ng-model="title">MAP</a>
       		<button ng-click="sort()" class="col col-offset-10 button button-small button-assertive icon-right ion-funnel">SORT</button>
 		</div>
-		
-			<map on-create="mapCreated(map)"></map>
-		
+		<div class="middle">
+			<ui-gmap-google-map control="map.control"center="map.center" zoom="map.zoom" options="options">
+				<ui-gmap-marker
+			        idKey='123'
+			        coords='latLng'
+			        >
+			</ui-gmap-marker>
+			</ui-gmap-google-map>
+		</div>
 			
 		</ion-content>
 
