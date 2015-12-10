@@ -20,7 +20,7 @@
 		<div ng-repeat="message in messageInfo" class="message-wrapper"
                 >
       
-                  <div ng-if="message.from !== user">
+                  <div ng-if="message.from === user">
                       
                     <img  class="profile-pic left" 
                           ng-src="http://graph.facebook.com/{{message.from}}/picture?type=square" />
@@ -29,12 +29,12 @@
       
                           <div class="message" ng-bind-html="message.content" autolinker>
                           </div>
-   
+   						
       
                       </div>
                   </div>
       
-                  <div ng-if="message.from === user">
+                  <div ng-if="message.from !== user">
                     
                        <img class="profile-pic right" 
                           ng-src="http://graph.facebook.com/{{message.from}}/picture?type=square" />
@@ -43,7 +43,7 @@
       
                           <div class="message" ng-bind-html="message.content" autolinker>
                           </div>
-      
+      					
               
       
                       </div>
