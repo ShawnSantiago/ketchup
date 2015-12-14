@@ -9,7 +9,9 @@ app.service('UserService', function (
                                      FIREBASE_URL,
                                      $firebaseAuth,
                                      $firebase,
-                                     $firebaseObject) {
+                                     $firebaseObject,
+                                      $ionicHistory,
+                                      $state) {
 	var cUser = $localstorage.get('ketchup-user');
 	var ref = new Firebase(FIREBASE_URL);
 	var usersRef = new Firebase(FIREBASE_URL + "/users");
@@ -93,8 +95,14 @@ app.service('UserService', function (
 		 
 		 
 		logoutUser: function () {
-			$localstorage.set('ketchup-user', null);
-			self.current = {};
+			
+				$localstorage.set('ketchup-user', null);
+				self.current = {};
+				$ionicHistory.clearHistory();
+				$ionicHistory.clearCache();
+				$state.go('loginPage');
+			 
+			
 		},
 		
 		 

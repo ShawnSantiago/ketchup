@@ -1,6 +1,6 @@
 var app = angular.module('ketchup.login', [])
 
-app.controller('loginCtrl', function ($scope, $state, UserService) {
+app.controller('loginCtrl', function ($scope, $state, UserService, $ionicHistory) {
   $scope.title = 'Login';
   $scope.loggingIn = false;
 
@@ -8,7 +8,6 @@ app.controller('loginCtrl', function ($scope, $state, UserService) {
     if (!$scope.loggingIn) {
       $scope.loggingIn = true;
       UserService.loginUser().then(function () {
-          $scope.loggingIn = false;
           $state.go('app.home');
           
           
@@ -17,4 +16,14 @@ app.controller('loginCtrl', function ($scope, $state, UserService) {
       $state.go('app.home');
     }
   }
+ 
+  $scope.$on("$ionicView.enter", function () {
+      console.log("chatCtrl-Enter");
+       $ionicHistory.clearCache().then(function(){
+        console.log("cleared");
+       })  
+    }, function (errorObject) {
+
+    console.log("The read failed: " + errorObject.code);
+    });
 });

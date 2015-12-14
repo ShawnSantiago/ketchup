@@ -5,25 +5,17 @@ app.controller('chatListCtrl', function ($scope,
                                      UserService,$localstorage,$state) {
   $scope.title = 'Chat List';
   $scope.chatActualId = "";
-  
+  var userID = $localstorage.get('ketchup-user-id');
+  $scope.currentTime = new Date().getTime();
   $scope.$watchCollection('$scope.chatActualId', function() {
     console.log($scope.chatActualId)
     });
   console.log($scope.chatActualId)
- function makeid()
-    {
-        var text = "";
-        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-        for( var i=0; i < 10; i++ )
-            text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-        return text;
-    }
+ 
   var user = $localstorage.get('ketchup-user');
   console.log(user)
   var ref = new Firebase(FIREBASE_URL);
-  var messagesRef = new Firebase(FIREBASE_URL + "/messages");
+  var messagesRef = new Firebase(FIREBASE_URL + "/posts");
   $scope.$on("$ionicView.enter", function () {
     console.log("chatCtrl-Enter");
   });
@@ -36,6 +28,20 @@ app.controller('chatListCtrl', function ($scope,
     $state.go('app.chat');
     console.log(data);
   };
+   $scope.showCards = function(date , duration ,id , friends) {
+      console.log(friends)
+      var timeDiff = Math.round(($scope.currentTime - date)/100000);
+      var divdeTime = Math.round(timeDiff / 60) ; 
+      for (var i = 0; i <= friends.length; i++) {
+       if (divdeTime <= duration && (id == userID || id == friends[i].id)) {
+        
+        return true
+      } else {
+        return false
+      }
+      };
+      
+    }
 
   
   

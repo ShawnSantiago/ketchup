@@ -18,7 +18,8 @@
     "cordova-plugin-whitelist",
     "cordova-plugin-console",
     "cordova-plugin-device",
-    "ionic-plugin-keyboard"
+    "ionic-plugin-keyboard",
+    "uk.co.workingedge.phonegap.plugin.launchnavigator"
   ],
   "cordovaPlatforms": [
     "ios"

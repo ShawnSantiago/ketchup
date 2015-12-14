@@ -5,7 +5,6 @@ app.controller('MenuCtrl', function($scope, $state, UserService, $ionicSideMenuD
  
   $scope.logout = function () {
     UserService.logoutUser();
-    $state.go('loginPage');
   };
 
 });

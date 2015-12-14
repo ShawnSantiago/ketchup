@@ -1,14 +1,14 @@
 
 
 var app = angular.module('ketchup', ['ionic', 'ngCordova',
-	'firebase','ngOpenFB','ngAutocomplete','angularMoment','ketchup.controllers', 'ketchup.directives', 'ketchup.services',"checklist-model",'ngRoute'])
+	'firebase','ngAutocomplete','angularMoment','ketchup.controllers', 'ketchup.directives', 'ketchup.services',"checklist-model",'ngRoute','uiGmapgoogle-maps'])
 
 
 app.constant("FIREBASE_URL", 'http://ketchuptest.firebaseio.com');
 app.constant("FACEBOOK_APP_ID", '1489325994730790');
 
 
-app.run(function ($rootScope, $ionicPlatform, $cordovaStatusbar,ngFB) {
+app.run(function ($rootScope, $ionicPlatform, $cordovaStatusbar) {
 
 
 		$ionicPlatform.ready(function () {
@@ -26,8 +26,14 @@ app.run(function ($rootScope, $ionicPlatform, $cordovaStatusbar,ngFB) {
 		});
 	});
 
-app.config(function ($stateProvider, $urlRouterProvider, FACEBOOK_APP_ID) {
+app.config(function ($stateProvider, $urlRouterProvider, FACEBOOK_APP_ID, uiGmapGoogleMapApiProvider) {
 	openFB.init({appId: FACEBOOK_APP_ID});
+
+	uiGmapGoogleMapApiProvider.configure({
+        key: 'AIzaSyDC3A7owFT_YA9ue7dXM85wslBkC81FHf8',
+        v: '3.20', //defaults to latest 3.X anyhow
+        libraries: 'places,weather,geometry,visualization'
+    });
 });
 
 

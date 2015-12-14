@@ -4,10 +4,13 @@ app.controller('newPostCtrl', function ($scope, $state, $ionicLoading, $localsto
 $routeParams, $ionicPopover, $route) {
 
   var user = $localstorage.get('ketchup-user');
+  var userID = $localstorage.get('ketchup-user-id');
+  // var userData = $localstorage.getObject('ketchup-data');
+  // console.log(userData)
   var postsRef = new Firebase(FIREBASE_URL + "/posts");
   var messagesRef = new Firebase(FIREBASE_URL + "/messages");
   var friendsRef = new Firebase(FIREBASE_URL + "/users/" + user + "/friendslist/friends/data");
-
+  
   friendsRef.on("value", function(snapshot) {
     $scope.postInfo = snapshot.val();
     $localstorage.setObject('ketchup-user-friends', $scope.postInfo);
@@ -16,22 +19,25 @@ $routeParams, $ionicPopover, $route) {
   $scope.title = 'New Post';
   $scope.data = {
         postLocation: "",
+        postLocationNameShort: "",
         autoLocation: "",
-        lenghtOfTime: "1",
+        lenghtOfTime: "",
         eventDesc: "",
         id : makeid(),
         title : ""
     };
-    console.log($scope.data.title)
 
     // $scope.friendsList = [{id: "10207042891024578", name: "Kristen Nakamura"},
     //            {id: "10154494517268975", name: "Franky Sanche"}]
     $scope.roles = $localstorage.getObject('ketchup-user-friends');
+    // $scope.roles.push({id:userData.facebook.id , name:userData.facebook.displayName})
     $scope.user = {
       roles: []
     };
-    $scope.$watchCollection('data.postLocation', function() {
-    console.log($scope.data.postLocation)
+    console.log( $scope.roles)
+    $scope.$watchCollection('data.postLocation', function(value) {
+      
+      console.log(value)
     });
    
     var dataRefined = [];
@@ -47,24 +53,25 @@ $routeParams, $ionicPopover, $route) {
  
     $scope.$watchCollection('user.roles', function() {
       var data = $scope.user.roles; 
-      console.log(data)
       angular.forEach(data, function(data) {
+        console.log("done")
         delete data['$$hashKey'];
       }, dataRefined)
-      console.log(dataRefined)
     });
-    
-  $scope.textLocation = function () {
-    
-  
-    $localstorage.set('ketchup-user-location', $scope.data.postLocation);
-    console.log($scope.data.autoLocation)
-    $ionicPopup.alert({
-     template: 'Location Set'
-   });
-    console.log("set");
 
-  };
+  $scope.clear = function (){
+    $scope.data.postLocation = "";    
+    
+  }
+    
+  // $scope.textLocation = function () {  
+  //   console.log($scope.data.autoLocation)
+  //   $ionicPopup.alert({
+  //    template: 'Location Set'
+  //  });
+  //   console.log("set");
+
+  // };
   $scope.centerOnMe = function () {
     console.log("Centering");
 
@@ -76,15 +83,19 @@ $routeParams, $ionicPopover, $route) {
       console.log('Got pos', pos.coords);
       var latLong = [pos.coords.latitude, pos.coords.longitude]
       console.log(latLong);
-       
+     
         var geocoder = new google.maps.Geocoder();
         var latlng = new google.maps.LatLng(latLong[0], latLong[1]);
         geocoder.geocode({ 'latLng': latlng }, function (results, status) {
             if (status == google.maps.GeocoderStatus.OK) {
                 if (results[1]) {
+                    console.log(results)
+                    $scope.data.postLocationNameShort = results[1].address_components[0].short_name;
                     $scope.data.postLocation = results[1].formatted_address;
-                    console.log(results[1].formatted_address)
-                    $localstorage.set('ketchup-user-location',results[1].formatted_address)
+                    $localstorage.set('ketchup-user-latlng',results[1].formatted_address);
+                    $localstorage.set('ketchup-user-location',results[1].formatted_address);
+                    $scope.locationLocal = $localstorage.get('ketchup-user-location');
+                    $route.reload();
                     
                 } else {
                     alert('Location not found');
@@ -97,9 +108,9 @@ $routeParams, $ionicPopover, $route) {
       
       $localstorage.set('ketchup-user-latLong', latLong);
       $ionicLoading.hide();
-      $ionicPopup.alert({
-        template: 'Location Set'
-      });
+      // $ionicPopup.alert({
+      //   template: 'Location Set'
+      // });
     }, function (error) {
       alert('Unable to get location: ' + error.message);
     });
@@ -109,7 +120,16 @@ $routeParams, $ionicPopover, $route) {
 
   $scope.submit = function() {
     
+    function makeid() {
+        var text = "";
+        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
+        for( var i=0; i < 10; i++ )
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+        return text;
+    }
+    var currentId = makeid();
     var userLocal= $localstorage.get('ketchup-user-location');
     var userData = $localstorage.getObject('ketchup-data');
     var userFriendsList = $localstorage.setObject('ketchup-user-friends');
@@ -121,29 +141,24 @@ $routeParams, $ionicPopover, $route) {
     } else {
       $localstorage.setObject('ketchup-post-user', null);
       
-      
-      postsRef.push({
-        name : userData.facebook.cachedUserProfile.name ,
-        profileImage : userData.facebook.cachedUserProfile.picture.data.url ,
-        location :  $scope.data.postLocation , 
-        message : $scope.data.eventDesc,
-        comments : 0,
-        friends: $scope.user.roles,
-        id: $scope.data.id,
-        title : $scope.data.title
-        
+      var fulldate = new Date().getTime()
 
-      });
-      messagesRef.child($scope.data.id)
-          .transaction(function () {  
+      postsRef.child(currentId)
+         .transaction(function () {  
               return {
-                creatorName : userData.facebook.cachedUserProfile.name ,
+                name : userData.facebook.cachedUserProfile.name ,
                 profileImage : userData.facebook.cachedUserProfile.picture.data.url ,
+                location :  $scope.data.postLocation , 
+                locationNameShort : $scope.data.postLocationNameShort,
+                message : $scope.data.eventDesc,
                 comments : 0,
                 friends: $scope.user.roles,
-                id: $scope.data.id,
-                title : $scope.data.title,
+                userID: userID,
+                date: fulldate,
+                time: $scope.data.lenghtOfTime,
+                allowedPersons : $scope.user.roles                  
                 
+
                 
               };
             
@@ -170,14 +185,21 @@ $routeParams, $ionicPopover, $route) {
     });
     $scope.$on("$ionicView.enter", function () {
       console.log("chatCtrl-Enter");
+      $route.reload();
+      $scope.centerOnMe();
     
+      
     }, function (errorObject) {
+
     console.log("The read failed: " + errorObject.code);
     });
 
-  $scope.$on("$ionicView.enter", function () {
+  $scope.$on("$ionicView.beforeLeave", function () {
     console.log("newPost-Leave");
-    $route.reload();
+    // $localstorage.set('ketchup-user-location','')
+    // $scope.data.postLocation = ""; 
+    
+    
  
   }); 
 

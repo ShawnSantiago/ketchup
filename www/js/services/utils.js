@@ -36,11 +36,23 @@ app.factory("chatMessages", ["$firebaseArray",'$localstorage','FIREBASE_URL',
     // create a reference to the database location where we will store our data
     var currentChat = $localstorage.get('ketchup-user-CurrentChat')
     
-    var ref = new Firebase(FIREBASE_URL + "/messages/" + currentChat + "/messeagesArray/");
+    var ref = new Firebase(FIREBASE_URL + "/posts/" + currentChat + "/messagesArray/");
     // this uses AngularFire to create the synchronized array
     return $firebaseArray(ref);
   }
 ]);
+
+app.directive('focusInput', function($timeout) {
+  return {
+    link: function(scope, element, attrs) {
+      element.bind('click', function() {
+        $timeout(function() {
+          element.parent().parent().find('input')[0].focus();
+        });
+      });
+    }
+  };
+});
 
 // app.factory('Message', ['$firebase','$localstorage','FIREBASE_URL',
 //   function($firebase, $localstorage, FIREBASE_URL) {

@@ -20,9 +20,9 @@
 	    		}" class="col button button-small icon-right ion-navicon-round " ng-model="title">MAP</a>
 	  		<button ng-click="sort()" class="col col-offset-10 button button-small button-assertive icon-right ion-funnel">SORT</button>
 		</div>
-			<div ng-repeat="profiles in postInfo"class="list card">
+			<div ng-repeat="profiles in postInfo | orderBy:reverse" class="list card" ng-show="showCards(profiles.date, profiles.time, profiles.userID, profiles.friends  )">
 
-			  <div class="item item-avatar">
+			  <div class="item item-avatar" >
 			    <img ng-src="{{profiles.profileImage}}">
 			    <h2>{{profiles.name}}</h2>
 			    <p>
@@ -35,11 +35,10 @@
 			    <h3>
 			      {{profiles.message}}
 			    </h3>
-			    <p>posted 13 minutes ago</p>
-			    <p>
-		
-			      <a href="#" class="subdued">{{profiles.comments}} Comments</a>
-			    </p>
+			    <p>Duration: {{profiles.time}} hrs</p>
+			    <p>posted {{ time(profiles.date)}}</p>
+			    
+
 			  </div>
 
 			  <div class="item tabs tabs-secondary tabs-icon-left">
@@ -48,9 +47,9 @@
 			      <i class="icon ion-chatbox"></i>
 			      Chat
 			    </a>
-			    <a class="tab-item" href="#">
+			    <a class="tab-item" ng-click="mapDirection(profiles.location)">
 			      <i class="icon ion-share"></i>
-			      Share
+			      Map
 			    </a>
 			  </div>
 
