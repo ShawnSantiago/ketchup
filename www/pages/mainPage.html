@@ -20,7 +20,7 @@
 	    		}" class="col button button-small icon-right ion-navicon-round " ng-model="title">MAP</a>
 	  		<button ng-click="sort()" class="col col-offset-10 button button-small button-assertive icon-right ion-funnel">SORT</button>
 		</div>
-			<div ng-repeat="profiles in postInfo | orderBy:reverse" class="list card" ng-show="showCards(profiles.date, profiles.time, profiles.userID, profiles.friends  )">
+			<div ng-repeat="profiles in postInfo | orderBy:reverse" class="list card" ng-show="showCards(profiles.date, profiles.time, profiles.userID, profiles.allowedPersons  )">
 
 			  <div class="item item-avatar" >
 			    <img ng-src="{{profiles.profileImage}}">

@@ -3,7 +3,7 @@
 var app = angular.module('ketchup.map', [])
 
 
-app.controller('mapCtrl', function($scope, $ionicLoading, $localstorage, uiGmapGoogleMapApi, $route) {
+app.controller('mapCtrl', function($scope, $ionicLoading, $localstorage, uiGmapGoogleMapApi, $route, $ionicHistory) {
 
   var getDirections = false;
 
@@ -84,6 +84,7 @@ app.controller('mapCtrl', function($scope, $ionicLoading, $localstorage, uiGmapG
   };
   $scope.$on("$ionicView.enter", function () {
       console.log("chatCtrl-Enter");
+      $ionicHistory.clearCache();
       $route.reload();
       $scope.centerOnMe();
       $scope.locationLocal = $localstorage.getObject('ketchup-user-latlng');
@@ -98,6 +99,7 @@ app.controller('mapCtrl', function($scope, $ionicLoading, $localstorage, uiGmapG
     });
   $scope.$on("$ionicView.beforeLeave", function () {
     console.log("newPost-Leave");
+    $ionicHistory.clearCache();
     $localstorage.setObject('ketchup-user-latlng', {latlang:"", dirBoolean:false});
     
     
