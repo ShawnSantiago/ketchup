@@ -4,6 +4,9 @@ app.controller('newPostCtrl', function ($scope, $state, $ionicLoading, $localsto
 $routeParams, $ionicPopover, $route) {
 
   var user = $localstorage.get('ketchup-user');
+  var userID = $localstorage.get('ketchup-user-id');
+  // var userData = $localstorage.getObject('ketchup-data');
+  // console.log(userData)
   var postsRef = new Firebase(FIREBASE_URL + "/posts");
   var messagesRef = new Firebase(FIREBASE_URL + "/messages");
   var friendsRef = new Firebase(FIREBASE_URL + "/users/" + user + "/friendslist/friends/data");
@@ -27,9 +30,11 @@ $routeParams, $ionicPopover, $route) {
     // $scope.friendsList = [{id: "10207042891024578", name: "Kristen Nakamura"},
     //            {id: "10154494517268975", name: "Franky Sanche"}]
     $scope.roles = $localstorage.getObject('ketchup-user-friends');
+    // $scope.roles.push({id:userData.facebook.id , name:userData.facebook.displayName})
     $scope.user = {
       roles: []
     };
+    console.log( $scope.roles)
     $scope.$watchCollection('data.postLocation', function(value) {
       
       console.log(value)
@@ -49,6 +54,7 @@ $routeParams, $ionicPopover, $route) {
     $scope.$watchCollection('user.roles', function() {
       var data = $scope.user.roles; 
       angular.forEach(data, function(data) {
+        console.log("done")
         delete data['$$hashKey'];
       }, dataRefined)
     });
@@ -114,7 +120,16 @@ $routeParams, $ionicPopover, $route) {
 
   $scope.submit = function() {
     
+    function makeid() {
+        var text = "";
+        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
+        for( var i=0; i < 10; i++ )
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+        return text;
+    }
+    var currentId = makeid();
     var userLocal= $localstorage.get('ketchup-user-location');
     var userData = $localstorage.getObject('ketchup-data');
     var userFriendsList = $localstorage.setObject('ketchup-user-friends');
@@ -128,28 +143,21 @@ $routeParams, $ionicPopover, $route) {
       
       var fulldate = new Date().getTime()
 
-      postsRef.push({
-        name : userData.facebook.cachedUserProfile.name ,
-        profileImage : userData.facebook.cachedUserProfile.picture.data.url ,
-        location :  $scope.data.postLocation , 
-        locationNameShort : $scope.data.postLocationNameShort,
-        message : $scope.data.eventDesc,
-        comments : 0,
-        friends: $scope.user.roles,
-        id: $scope.data.id,
-        date: fulldate,
-        time: lenghtOfTime
-
-      });
-      messagesRef.child($scope.data.id)
-          .transaction(function () {  
+      postsRef.child(currentId)
+         .transaction(function () {  
               return {
-                creatorName : userData.facebook.cachedUserProfile.name ,
+                name : userData.facebook.cachedUserProfile.name ,
                 profileImage : userData.facebook.cachedUserProfile.picture.data.url ,
+                location :  $scope.data.postLocation , 
+                locationNameShort : $scope.data.postLocationNameShort,
+                message : $scope.data.eventDesc,
                 comments : 0,
                 friends: $scope.user.roles,
-                id: $scope.data.id,
-                title : $scope.data.eventDesc
+                userID: userID,
+                date: fulldate,
+                time: $scope.data.lenghtOfTime,
+                allowedPersons : $scope.user.roles                  
+                
 
                 
               };

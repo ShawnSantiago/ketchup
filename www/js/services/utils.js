@@ -36,7 +36,7 @@ app.factory("chatMessages", ["$firebaseArray",'$localstorage','FIREBASE_URL',
     // create a reference to the database location where we will store our data
     var currentChat = $localstorage.get('ketchup-user-CurrentChat')
     
-    var ref = new Firebase(FIREBASE_URL + "/messages/" + currentChat + "/messeagesArray/");
+    var ref = new Firebase(FIREBASE_URL + "/posts/" + currentChat + "/messagesArray/");
     // this uses AngularFire to create the synchronized array
     return $firebaseArray(ref);
   }

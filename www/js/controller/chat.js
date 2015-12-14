@@ -6,7 +6,7 @@ app.controller('chatCtrl', function ($scope,
   $scope.title = 'Chat';
   $scope.user = $localstorage.get('ketchup-user-id');
   $scope.currentChat = $localstorage.get('ketchup-user-CurrentChat')
-  var messagesRef = new Firebase(FIREBASE_URL + "/messages/" + $scope.currentChat+"/messeagesArray");
+  var messagesRef = new Firebase(FIREBASE_URL + "/posts/" + $scope.currentChat+"/messagesArray");
   messagesRef.on("value", function(snapshot) {
     $scope.messageInfo = snapshot.val();
     $localstorage.setObject('ketchup-user-friends', $scope.postInfo);

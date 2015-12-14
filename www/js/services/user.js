@@ -95,11 +95,13 @@ app.service('UserService', function (
 		 
 		 
 		logoutUser: function () {
-			$ionicHistory.clearCache().then(function(){
+			
 				$localstorage.set('ketchup-user', null);
 				self.current = {};
+				$ionicHistory.clearHistory();
+				$ionicHistory.clearCache();
 				$state.go('loginPage');
-			 })
+			 
 			
 		},
 		
