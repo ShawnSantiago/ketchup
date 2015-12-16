@@ -3,21 +3,37 @@
 var app = angular.module('ketchup.map', [])
 
 
-app.controller('mapCtrl', function($scope, $ionicLoading, $localstorage, uiGmapGoogleMapApi, $route, $ionicHistory) {
-
+app.controller('mapCtrl', function($scope, $ionicLoading, $localstorage, uiGmapGoogleMapApi, $route, $ionicHistory,$localstorage, $ionicSideMenuDelegate, FIREBASE_URL, $firebaseAuth, $firebase, $firebaseArray, $state) {
+   var postsRef = new Firebase(FIREBASE_URL + "/posts");
+  
+  
+  $scope.markersMaker = function(data) {
+  
+      angular.forEach(data, function(key) {
+      $scope.markersModel.push(key.latLong)
+      });
+    
+    }
+    $scope.markersModel = [];
+    $scope.$watchCollection('markersModel', function(value) {
+      
+      console.log(value)
+    });
+   
   var getDirections = false;
-
+  
   $scope.model = {
       'title':'Map'
-}
+  }
+
   $scope.latLng;
 
   $scope.title = 'Map';
   $scope.$watchCollection('latLng', function(value) {
       $scope.map = { 
         control: {} , 
-        center:  value, 
-        zoom: 8 
+        center:  $scope.latLng, 
+        zoom: 10
       };
       console.log(value)
     });
@@ -55,9 +71,7 @@ app.controller('mapCtrl', function($scope, $ionicLoading, $localstorage, uiGmapG
   }
   $scope.centerOnMe = function () {
     console.log("Centering");
-    if (!$scope.map) {
-      return;
-    }
+  
 
     $scope.loading = $ionicLoading.show({
       content: 'Getting current location...',
@@ -82,13 +96,30 @@ app.controller('mapCtrl', function($scope, $ionicLoading, $localstorage, uiGmapG
       alert('Unable to get location: ' + error.message);
     });
   };
+
+
+
   $scope.$on("$ionicView.enter", function () {
       console.log("chatCtrl-Enter");
       $ionicHistory.clearCache();
       $route.reload();
-      $scope.centerOnMe();
       $scope.locationLocal = $localstorage.getObject('ketchup-user-latlng');
       console.log($scope.locationLocal)
+      if ($scope.locationLocal.dirBoolean) {
+        $scope.centerOnMe()
+        
+
+      } else {
+        $scope.centerOnMe()
+        postsRef.on("value", function(snapshot) {
+        $scope.postInfo = snapshot.val();
+        console.log("hit")
+        $scope.markersMaker($scope.postInfo);   
+        })
+
+      }
+      
+      
       
       
     
@@ -99,6 +130,7 @@ app.controller('mapCtrl', function($scope, $ionicLoading, $localstorage, uiGmapG
     });
   $scope.$on("$ionicView.beforeLeave", function () {
     console.log("newPost-Leave");
+    $route.reload();
     $ionicHistory.clearCache();
     $localstorage.setObject('ketchup-user-latlng', {latlang:"", dirBoolean:false});
     

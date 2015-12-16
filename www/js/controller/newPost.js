@@ -24,7 +24,13 @@ $routeParams, $ionicPopover, $route) {
         lenghtOfTime: "",
         eventDesc: "",
         id : makeid(),
-        title : ""
+        title : "",
+        latLong:"",
+        
+    };
+    $scope.details = function(details){
+      console.log(details.geometry.location.lat())
+      $scope.data.latLong = {id:makeid() , latitude: details.geometry.location.lat(), longitude : details.geometry.location.lng()}
     };
 
     // $scope.friendsList = [{id: "10207042891024578", name: "Kristen Nakamura"},
@@ -35,6 +41,11 @@ $routeParams, $ionicPopover, $route) {
       roles: []
     };
     console.log( $scope.roles)
+
+    $scope.$watchCollection('data.latLong', function(value) {
+      
+      console.log(value)
+    });
     $scope.$watchCollection('data.postLocation', function(value) {
       
       console.log(value)
@@ -89,7 +100,9 @@ $routeParams, $ionicPopover, $route) {
         geocoder.geocode({ 'latLng': latlng }, function (results, status) {
             if (status == google.maps.GeocoderStatus.OK) {
                 if (results[1]) {
-                    console.log(results)
+                    //console.log(results[0])
+                    $scope.data.latLong = {Latitude: results[0].geometry.viewport["O"]["O"], longitude: results[0].geometry.viewport["j"]["j"]};
+                    console.log($scope.data.latLong)
                     $scope.data.postLocationNameShort = results[1].address_components[0].short_name;
                     $scope.data.postLocation = results[1].formatted_address;
                     $localstorage.set('ketchup-user-latlng',results[1].formatted_address);
@@ -156,8 +169,8 @@ $routeParams, $ionicPopover, $route) {
                 userID: userID,
                 date: fulldate,
                 time: $scope.data.lenghtOfTime,
-                allowedPersons : $scope.user.roles                  
-                
+                latLong : $scope.data.latLong ,                 
+                idKey : makeid()
 
                 
               };

@@ -35,24 +35,35 @@ app.controller('mainCtrl', function( $scope, $timeout, UserService, $localstorag
       return fullTime
     };
     $scope.showCards = function(date ,duration ,id ,friends) {
-     
-      if (friendsArray.length == 0 ) {
-        console.log("hit2");
-        friendsArray.push(friends);     
-      } else {
-        for (var i=0; i == friendsArray.length; i++) {
-          if (friends[i].id !== friendsArray[0][i].id ) {
-            friendsArray.push(friendsArray[i])
-          };
-        };
-      }
 
-      console.log("hit 3");
+      var timeDiff = Math.round(($scope.currentTime - date)/100000);
+        var divdeTime = Math.round(timeDiff / 60) ; 
+         
+          if (divdeTime <= duration) {
+            console.log('permisson good')
+            return true
+          } else {
+            return false
+          }
+        
 
-    return hasPermission(date, duration, friendsArray);
-     
+      // if (friendsArray.length == 0 ) {
+      //   console.log("hit2");
+      //   friendsArray.push(friends);     
+      // } else {
+      //   for (var i=0; i == friendsArray.length; i++) {
+      //     if (friends[i].id !== friendsArray[0][i].id ) {
+      //       friendsArray.push(friendsArray[i])
+      //     };
+      //   };
+      // }
+
+    //   console.log("hit 3");
+
+    // return hasPermission(date, duration, friendsArray);     
    
     }
+
      function hasPermission(date, duration ,friends) {
         console.log(date ,duration, friends);
         var timeDiff = Math.round(($scope.currentTime - date)/100000);
@@ -108,6 +119,14 @@ app.controller('mainCtrl', function( $scope, $timeout, UserService, $localstorag
     UserService.logoutUser();
     $state.go('intro');
   };
+
+  $scope.$on("$ionicView.enter", function () {
+    console.log("Main-enter");
+    $localstorage.setObject('ketchup-user-latlng', {latlang:"", dirBoolean:false});
+    
+    
+ 
+  }); 
 
     
     

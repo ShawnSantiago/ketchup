@@ -95,13 +95,11 @@ app.service('UserService', function (
 		 
 		 
 		logoutUser: function () {
-			
+			$ionicHistory.clearCache().then(function(){
 				$localstorage.set('ketchup-user', null);
 				self.current = {};
-				$ionicHistory.clearHistory();
-				$ionicHistory.clearCache();
 				$state.go('loginPage');
-			 
+			 })
 			
 		},
 		
@@ -295,6 +293,79 @@ app.service('UserService', function (
 														$localstorage.set('ketchup-user', authData.uid);
 														$localstorage.setObject('ketchup-data', authData);
 														self.current = $firebaseObject(usersRef.child(authData.uid));
+														self.current.$loaded(function () {
+															// When we are sure the object has been completely
+															// loaded from firebase then resolve the promise.
+															d.resolve(self.current);
+														});
+													});
+											})
+											.catch(function (error) {
+												console.error("Authentication failed:", error);
+												//
+												// We've failed to authenticate, show the user an error message.
+												//
+												$ionicPopup.alert({
+													title: "Error",
+													template: 'There was an error logging you in with facebook, please try later.'
+												});
+												d.reject(error);
+											});
+
+									},
+									error: function (error) {
+										console.error('Facebook error: ' + error.error_description);
+										//
+										// There was an error calling the facebook api to get details about the
+										// current user. Show the user an error message
+										//
+										$ionicPopup.alert({
+											title: "Facebook Error",
+											template: error.error_description
+										});
+										d.reject(error);
+									}
+								});
+								openFB.api({
+									path: '/me/friends',
+									
+									success: function (userData) {
+										console.log('Got data from facebook about current user');
+										console.log(userData);
+										//
+										// We got details of the current user now authenticate via firebase
+										//
+										console.log('Authenticating with firebase');
+
+
+										var auth = $firebaseAuth(ref);
+										auth.$authWithOAuthToken("facebook", token)
+											.then(function (authData) {
+												console.log("Authentication success, logged in as:", authData.uid);
+												console.log(authData);
+												
+												// We've authenticated, now it's time to either get an existing user
+												// object or create a new one.
+													
+												friendsRef.child("friendslist")
+
+													.transaction(function (currentUserData) {
+														
+															return {
+																'friends': userData
+																
+															};
+														
+													},
+													function (error, committed) {
+														//
+														// This second function in the transaction clause is always called
+														// whether the user was created or is being retrieved.
+														//
+														// We want to store the userid in localstorage as well as load the user
+														// and store it in the self.current property.
+														//
+														
 														self.current.$loaded(function () {
 															// When we are sure the object has been completely
 															// loaded from firebase then resolve the promise.
