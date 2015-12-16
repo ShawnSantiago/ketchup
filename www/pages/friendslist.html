@@ -20,12 +20,29 @@
 	    		}" class="col button button-small icon-right ion-navicon-round " ng-model="title">MAP</a>
 	  		<button ng-click="sort()" class="col col-offset-10 button button-small button-assertive icon-right ion-funnel">SORT</button>
 		</div> -->
+		<div class="list" >
+						 	
+		
+				<div class="item item-thumbnail-left" ng-repeat="role in roles">
+					<img  ng-src="http://graph.facebook.com/{{role.id}}/picture?type=square">
+					<h2>{{role.name}}</h2>
+					<label class="checkbox">
+						<input type="checkbox" data-checklist-model="user.roles" data-checklist-value="role" ng-click="checkInfo()">
+					</label>
+				</div>
+	
+		</div>
+		<button class="button button-block button-positive icon ion-plus-circled" ng-click="getFriends()">
+  						Add Facebook Friends
+						</button>
+				
 
-		<ion-list>
+		<!-- <ion-list>
 		
 			<ion-item >
 				<div class="row">
 					<div class="col">
+
 						<div class="list" ng-repeat="friends in friendsList">
 
     						<a class="item item-avatar" href="#">
@@ -43,7 +60,7 @@
 					
 				</div>
 			</ion-item>
-		</ion-list>
+		</ion-list> -->
 	</ion-content>
 	<ion-footer>
 		<div class="tabs tabs-dark tabs-icon-only">

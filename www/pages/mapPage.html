@@ -18,11 +18,9 @@
 		</div>
 		<div class="middle">
 			<ui-gmap-google-map control="map.control"center="map.center" zoom="map.zoom" options="options">
-				<ui-gmap-marker
-			        idKey='123'
-			        coords='latLng'
-			        >
-			</ui-gmap-marker>
+			<ui-gmap-markers models="markersModel" coords="'self'" icon="'icon'">
+        </ui-gmap-markers>
+				
 			</ui-gmap-google-map>
 		</div>
 			

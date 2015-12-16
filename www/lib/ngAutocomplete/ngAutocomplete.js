@@ -1,3 +1,4 @@
+
 'use strict';
 
 /**
@@ -81,10 +82,7 @@ angular.module( "ngAutocomplete", [])
         }
 
         if (scope.gPlace == undefined) {
-          
-    
           scope.gPlace = new google.maps.places.Autocomplete(element[0], {});
-
         }
         google.maps.event.addListener(scope.gPlace, 'place_changed', function() {
           var result = scope.gPlace.getPlace();
@@ -93,7 +91,7 @@ angular.module( "ngAutocomplete", [])
 
               scope.$apply(function() {
 
-                scope.details = result;
+                scope.details(result);
 
                 controller.$setViewValue(element.val());
               });
@@ -153,7 +151,6 @@ angular.module( "ngAutocomplete", [])
 
         controller.$render = function () {
           var location = controller.$viewValue;
-
           element.val(location);
         };
 
