@@ -37,7 +37,7 @@ $routeParams, $ionicPopover, $route) {
     };
     console.log( $scope.roles)
 
-    $scope.$watchCollection('data.latLong', function(value) {
+    $scope.$watchCollection('data.lenghtOfTime', function(value) {
       
       console.log(value)
     });
