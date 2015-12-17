@@ -238,12 +238,19 @@ a.autolinker {
 
 #logo{
         position: fixed;
-        top: 50%;
+        top: 30%;
         left: 50%;
-        width: 100%;
+        width: 80%;
         -webkit-transform: translate(-50%, -50%);
         transform: translate(-50%, -50%);
     }
+
+.button-login{
+  position: fixed;
+  top: 60%;
+  width: 95% !important;
+}
+
 .chat-item.ng-enter {
 -webkit-animation: fadeInLeft 1s;
 animation: fadeInLeft 1s;
