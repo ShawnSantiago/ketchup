@@ -235,3 +235,24 @@ a.autolinker {
 .loader .ion-loading-c {
   font-size: 64px;
 }
+
+#logo{
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        width: 100%;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
+.chat-item.ng-enter {
+-webkit-animation: fadeInLeft 1s;
+animation: fadeInLeft 1s;
+}
+.chat-item {
+  -webkit-animation-delay:200ms;
+  animation-delay:200ms;
+
+  /* override to make sure it's not inherited from other styles */
+  -webkit-animation-duration:0;
+  animation-duration:0;
+}
