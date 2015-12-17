@@ -23,6 +23,7 @@ $routeParams, $ionicPopover, $route) {
         latLong:"",
         
     };
+
     $scope.details = function(details){
       console.log(details.geometry.location.lat())
       $scope.data.latLong = {id:makeid() , latitude: details.geometry.location.lat(), longitude : details.geometry.location.lng()}
@@ -37,7 +38,7 @@ $routeParams, $ionicPopover, $route) {
     };
     console.log( $scope.roles)
 
-    $scope.$watchCollection('data.latLong', function(value) {
+    $scope.$watchCollection('data.lenghtOfTime', function(value) {
       
       console.log(value)
     });
@@ -204,6 +205,7 @@ $routeParams, $ionicPopover, $route) {
 
   $scope.$on("$ionicView.beforeLeave", function () {
     console.log("newPost-Leave");
+    $localstorage.setObject('ketchup-user-latlng', {latlang:"", dirBoolean:false});
     // $localstorage.set('ketchup-user-location','')
     // $scope.data.postLocation = ""; 
     

@@ -29,11 +29,20 @@
             <h2 class="title">How long are you free?</h2>
             <div class="button-bar bar-assertive button-bar-hours">
 
-              <a class="button button-small"
+              <a class="button button-small" ng-class="{
+              'button-dark':data.lenghtOfTime == 1,
+              
+          }" 
               ng-click="data.lenghtOfTime = 1" value="1">1 Hour</a>
-              <a class="button button-small"
+              <a class="button button-small" ng-class="{
+              'button-dark':data.lenghtOfTime == 2,
+              
+          }" 
               ng-click="data.lenghtOfTime = 2" value="2">2 Hours</a>
-              <a class="button button-small"
+              <a class="button button-small" ng-class="{
+              'button-dark':data.lenghtOfTime == 3,
+             
+          }" 
               ng-click="data.lenghtOfTime = 3" value="3">3 Hours</a>
               <!-- <a class="button button-small">More</a> -->
             </div>

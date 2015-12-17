@@ -101,6 +101,7 @@ app.controller('mapCtrl', function($scope, $ionicLoading, $localstorage, uiGmapG
 
   $scope.$on("$ionicView.enter", function () {
       console.log("chatCtrl-Enter");
+       $localstorage.setObject('ketchup-user-friends', "");
       $ionicHistory.clearCache();
       $route.reload();
       $scope.locationLocal = $localstorage.getObject('ketchup-user-latlng');

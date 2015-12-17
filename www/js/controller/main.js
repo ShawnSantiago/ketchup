@@ -1,6 +1,6 @@
 var app = angular.module('ketchup.main', [])
 
-app.controller('mainCtrl', function( $scope, $timeout, UserService, $localstorage, $ionicSideMenuDelegate, FIREBASE_URL, $firebaseAuth, $firebase, $firebaseArray, $state) {
+app.controller('mainCtrl', function( $scope, $timeout, UserService, $localstorage, $ionicSideMenuDelegate, FIREBASE_URL, $firebaseAuth, $firebase, $firebaseArray, $state,$ionicListDelegate) {
   var userID = $localstorage.get('ketchup-user-id');
   console.log(userID)
   $scope.model = {
@@ -17,6 +17,12 @@ app.controller('mainCtrl', function( $scope, $timeout, UserService, $localstorag
       }, function (errorObject) {
         console.log("The read failed: " + errorObject.code);
       });
+    $scope.moveItem = function(item, fromIndex, toIndex) {
+      console.log("hit")
+    //Move the item in the array
+    $scope.items.splice(fromIndex, 1);
+    $scope.items.splice(toIndex, 0, item);
+  };
 
     $scope.messageShowArray = {}
     $scope.Math = window.Math;
@@ -123,7 +129,9 @@ app.controller('mainCtrl', function( $scope, $timeout, UserService, $localstorag
 
   $scope.$on("$ionicView.enter", function () {
     console.log("Main-enter");
+    
     $localstorage.setObject('ketchup-user-latlng', {latlang:"", dirBoolean:false});
+   
     
     
  

@@ -69,6 +69,7 @@ app.controller('chatCtrl', function ($scope,
   $scope.$on("$ionicView.enter", function () {
     console.log("chatCtrl-Enter");
     $route.reload();
+     $localstorage.setObject('ketchup-user-friends', "");
   });
 
   $scope.$on("$ionicView.beforeLeave", function () {

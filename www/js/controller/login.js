@@ -1,7 +1,7 @@
 var app = angular.module('ketchup.login', [])
 
 app.controller('loginCtrl', function ($scope, $state, UserService, $ionicHistory) {
-  $scope.title = 'Login';
+  $scope.title = '';
   $scope.loggingIn = false;
 
   $scope.login = function () {

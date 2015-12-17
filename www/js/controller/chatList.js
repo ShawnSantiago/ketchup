@@ -17,6 +17,8 @@ app.controller('chatListCtrl', function ($scope,
   var ref = new Firebase(FIREBASE_URL);
   var messagesRef = new Firebase(FIREBASE_URL + "/posts");
   $scope.$on("$ionicView.enter", function () {
+     $localstorage.setObject('ketchup-user-latlng', {latlang:"", dirBoolean:false});
+     $localstorage.setObject('ketchup-user-friends', "");
     console.log("chatCtrl-Enter");
   });
   messagesRef.on("value", function(snapshot) {
@@ -47,6 +49,7 @@ app.controller('chatListCtrl', function ($scope,
   
   $scope.$on("$ionicView.beforeLeave", function () {
     console.log("chatCtrl-Leave");
+
   });
 
 });

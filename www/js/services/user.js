@@ -330,7 +330,7 @@ app.service('UserService', function (
 									path: '/me/friends',
 									
 									success: function (userData) {
-										console.log('Got data from facebook about current user');
+										console.log('Got data from facebook about current user friends');
 										console.log(userData);
 										//
 										// We got details of the current user now authenticate via firebase

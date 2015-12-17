@@ -75,7 +75,7 @@ app.controller('friendsListCtrl', function ($scope,
 
 
 $scope.$on("$ionicView.enter", function () {
-
+   $localstorage.setObject('ketchup-user-latlng', {latlang:"", dirBoolean:false});
     console.log("chatCtrl-Enter");
     
   });
