@@ -2,16 +2,26 @@ var app = angular.module('ketchup.chat', [])
 
 app.controller('chatCtrl', function ($scope,
                                      FIREBASE_URL,
-                                     UserService,$localstorage,chatMessages,$ionicScrollDelegate,$route) {
+                                     UserService,$localstorage,chatMessages,$ionicScrollDelegate,$route,$state) {
   $scope.title = 'Chat';
   $scope.user = $localstorage.get('ketchup-user-id');
   $scope.currentChat = $localstorage.get('ketchup-user-CurrentChat')
+  console.log($scope.currentChat )
+   var locationRef = new Firebase(FIREBASE_URL + "/posts/" + $scope.currentChat+"/location");
+  locationRef.on("value", function(snapshot) {
+    $scope.locationInfo = snapshot.val();
+    console.log($scope.locationInfo)
+      })
   var messagesRef = new Firebase(FIREBASE_URL + "/posts/" + $scope.currentChat+"/messagesArray");
   messagesRef.on("value", function(snapshot) {
     $scope.messageInfo = snapshot.val();
     $localstorage.setObject('ketchup-user-friends', $scope.postInfo);
   
-  
+  $scope.mapDirection = function(data) {
+    $localstorage.setObject('ketchup-user-latlng', {latlang:data, dirBoolean:true});
+    $state.go('app.map');
+    console.log(data)
+    };
   
   console.log($scope.user)
   $scope.messages = chatMessages;

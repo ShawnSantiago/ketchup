@@ -103,9 +103,10 @@ app.controller('mainCtrl', function( $scope, $timeout, UserService, $localstorag
     console.log("done 3")
     }
     $scope.chatActual = function(data) {
+      console.log(data);
       $localstorage.set('ketchup-user-CurrentChat', data)
       $state.go('app.chat');
-      console.log(data);
+      
   };
 
     $scope.title = 'Home';
