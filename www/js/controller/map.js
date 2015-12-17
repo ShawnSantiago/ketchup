@@ -113,7 +113,7 @@ app.controller('mapCtrl', function($scope, $ionicLoading, $localstorage, uiGmapG
         $scope.centerOnMe()
         postsRef.on("value", function(snapshot) {
         $scope.postInfo = snapshot.val();
-        console.log("hit")
+        console.log($scope.postInfo)
         $scope.markersMaker($scope.postInfo);   
         })
 

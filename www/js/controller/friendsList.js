@@ -2,31 +2,31 @@ var app = angular.module('ketchup.friendsList', [])
 
 app.controller('friendsListCtrl', function ($scope,
                                      FIREBASE_URL,
-                                     UserService,$localstorage,$state) {
+                                     UserService,$ionicPopup, $localstorage,$state) {
   $scope.title = 'Friends List';
     var user = $localstorage.get('ketchup-user');
  
     var ref = new Firebase(FIREBASE_URL);
     var postsRef = new Firebase(FIREBASE_URL + "/users/" + user + "/friendslist/");
-  
+    var friendsSelRef = new Firebase(FIREBASE_URL + "/users/" + user + "/selectedfriendslist/");
+   
     var newRole = {selected : true};
     postsRef.on("value", function(snapshot) {
       $scope.postInfo = snapshot.val();
       $scope.$broadcast('scroll.refreshComplete');
       $scope.friendsList = $scope.postInfo.friends.data;
       console.log($scope.friendsList)
-      $localstorage.setObject('ketchup-user-friends', $scope.friendsList);
       console.log($scope.friendsList)
    
 
     $scope.roles = $scope.friendsList;
-    
+   
     $scope.user = {
       roles: []
     };
     $scope.$watchCollection('user.roles', function() {
-      $localstorage.setObject('ketchup-post-user', $scope.user.roles);
-      console.log('sent ' + $scope.user.roles)
+      
+      console.log('stored ' + $scope.user.roles)
 
   });
     console.log($scope.user.roles)
@@ -52,7 +52,12 @@ app.controller('friendsListCtrl', function ($scope,
       $scope.user.roles.push($scope.roles[0]);
     };
      $scope.getFriends = function () {
-    $localstorage.setObject('ketchup-post-user', $scope.user.roles);
+      $localstorage.setObject('ketchup-user-friends', $scope.user.roles);
+      $ionicPopup.alert({
+           title: 'Complete',
+           template: 'Got ya Facebook Friends'
+         });
+      $state.go('app.home')
     };
 
      }, function (errorObject) {
@@ -70,6 +75,7 @@ app.controller('friendsListCtrl', function ($scope,
 
 
 $scope.$on("$ionicView.enter", function () {
+
     console.log("chatCtrl-Enter");
     
   });

@@ -9,12 +9,7 @@ $routeParams, $ionicPopover, $route) {
   // console.log(userData)
   var postsRef = new Firebase(FIREBASE_URL + "/posts");
   var messagesRef = new Firebase(FIREBASE_URL + "/messages");
-  var friendsRef = new Firebase(FIREBASE_URL + "/users/" + user + "/friendslist/friends/data");
-  
-  friendsRef.on("value", function(snapshot) {
-    $scope.postInfo = snapshot.val();
-    $localstorage.setObject('ketchup-user-friends', $scope.postInfo);
-  })
+
 
   $scope.title = 'New Post';
   $scope.data = {
@@ -101,7 +96,7 @@ $routeParams, $ionicPopover, $route) {
             if (status == google.maps.GeocoderStatus.OK) {
                 if (results[1]) {
                     //console.log(results[0])
-                    $scope.data.latLong = {Latitude: results[0].geometry.viewport["O"]["O"], longitude: results[0].geometry.viewport["j"]["j"]};
+                    $scope.data.latLong = {id:makeid() ,Latitude: results[0].geometry.viewport["O"]["O"], longitude: results[0].geometry.viewport["j"]["j"]};
                     console.log($scope.data.latLong)
                     $scope.data.postLocationNameShort = results[1].address_components[0].short_name;
                     $scope.data.postLocation = results[1].formatted_address;
@@ -170,7 +165,7 @@ $routeParams, $ionicPopover, $route) {
                 date: fulldate,
                 time: $scope.data.lenghtOfTime,
                 latLong : $scope.data.latLong ,                 
-                idKey : makeid()
+                id : currentId
 
                 
               };
